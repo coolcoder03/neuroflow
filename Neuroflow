@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="description" content="NeuroFlow — Rewire your brain in 15 days. Science-backed dopamine reset protocol.">
+<meta name="theme-color" content="#03060e">
+<title>NeuroFlow — Brain Reset Protocol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Lato:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+<style>
+/* ==================== RESET & BASE ==================== */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#03060e;--deep:#060b18;--surface:#0b1120;--panel:#0f1729;--card:#111827;
+  --glass:rgba(255,255,255,0.04);--gb:rgba(255,255,255,0.08);--gb2:rgba(255,255,255,0.12);
+  --cyan:#00e5ff;--cyand:rgba(0,229,255,0.12);--cyanglow:rgba(0,229,255,0.3);
+  --violet:#7c3aed;--vd:rgba(124,58,237,0.18);
+  --green:#00ffa3;--gd:rgba(0,255,163,0.12);
+  --amber:#ffb347;--ad:rgba(255,179,71,0.14);
+  --rose:#ff4d8f;--rd:rgba(255,77,143,0.14);
+  --sky:#38bdf8;--skyd:rgba(56,189,248,0.12);
+  --text:#dde6f5;--muted:#7080a8;--dim:#2d3a55;
+  --nav-h:68px;--hdr-h:56px;
+  --r:16px;--r2:12px;--r3:8px;--r4:6px;
+  --shadow:0 4px 24px rgba(0,0,0,0.5);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Lato',sans-serif;font-size:14px}
+button{font-family:inherit;cursor:pointer;border:none;outline:none}
+input,select{font-family:inherit;outline:none;border:none;background:none;color:var(--text)}
+a{color:var(--cyan);text-decoration:none}
+img{max-width:100%}
+
+/* ==================== GRID BG ==================== */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,229,255,0.02) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(0,229,255,0.02) 1px,transparent 1px);
+  background-size:48px 48px}
+
+/* ==================== LAYOUT ==================== */
+#app{position:fixed;inset:0;display:flex;flex-direction:column;z-index:1;overflow:hidden}
+
+/* HEADER */
+.app-header{height:var(--hdr-h);background:var(--surface);border-bottom:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:space-between;padding:0 16px;
+  flex-shrink:0;position:relative;z-index:10}
+.logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;
+  background:linear-gradient(120deg,var(--cyan),var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.beta-badge{background:var(--rd);border:1px solid rgba(255,77,143,.35);color:var(--rose);
+  font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1.5px;padding:3px 8px;border-radius:4px}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.hdr-btn{background:var(--glass);border:1px solid var(--gb);border-radius:8px;
+  padding:6px 10px;color:var(--muted);font-size:13px;transition:all .2s}
+.hdr-btn:hover{color:var(--text);border-color:var(--gb2)}
+.day-indicator{font-family:'DM Mono',monospace;font-size:11px;color:var(--cyan);
+  background:var(--cyand);border:1px solid rgba(0,229,255,.25);border-radius:6px;padding:4px 10px}
+
+/* SCREENS */
+.screens{flex:1;overflow:hidden;position:relative}
+.screen{position:absolute;inset:0;overflow-y:auto;display:none;
+  padding:16px 16px calc(var(--nav-h) + 16px);
+  scrollbar-width:thin;scrollbar-color:var(--dim) transparent}
+.screen.active{display:block}
+.screen::-webkit-scrollbar{width:4px}.screen::-webkit-scrollbar-thumb{background:var(--dim)}
+
+/* BOTTOM NAV */
+.bottom-nav{height:var(--nav-h);background:var(--surface);border-top:1px solid var(--gb);
+  display:flex;align-items:stretch;flex-shrink:0;position:relative;z-index:10}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;cursor:pointer;padding:8px 4px;transition:all .2s;position:relative}
+.nav-item.active{color:var(--cyan)}
+.nav-item:not(.active){color:var(--muted)}
+.nav-icon{font-size:20px;line-height:1}
+.nav-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:.5px}
+.nav-item.active::after{content:'';position:absolute;top:0;left:25%;right:25%;height:2px;
+  background:var(--cyan);border-radius:0 0 3px 3px;box-shadow:0 0 8px var(--cyan)}
+
+/* ==================== COMPONENTS ==================== */
+.sec-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--dim);margin-bottom:6px}
+.sec-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--gb);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.card.c-cyan{border-left:3px solid var(--cyan)}
+.card.c-violet{border-left:3px solid var(--violet)}
+.card.c-green{border-left:3px solid var(--green)}
+.card.c-amber{border-left:3px solid var(--amber)}
+.card.c-rose{border-left:3px solid var(--rose)}
+.card-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:8px}
+.card-body{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* GRID */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* STAT CARD */
+.stat-card{background:var(--card);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
+.stat-val{font-family:'Syne',sans-serif;font-size:26px;font-weight:800}
+.stat-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:1px}
+.stat-sub{font-size:11px;color:var(--dim)}
+
+/* PROGRESS BAR */
+.prog-wrap{margin:8px 0}
+.prog-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px}
+.prog-bar{height:6px;border-radius:100px;background:var(--gb);overflow:hidden}
+.prog-fill{height:100%;border-radius:100px;transition:width .6s ease}
+
+/* PILL TAGS */
+.pill{display:inline-block;padding:3px 10px;border-radius:100px;font-family:'DM Mono',monospace;font-size:9.5px}
+.pill-c{background:var(--cyand);color:var(--cyan);border:1px solid rgba(0,229,255,.25)}
+.pill-v{background:var(--vd);color:#a78bfa;border:1px solid rgba(124,58,237,.25)}
+.pill-g{background:var(--gd);color:var(--green);border:1px solid rgba(0,255,163,.25)}
+.pill-a{background:var(--ad);color:var(--amber);border:1px solid rgba(255,179,71,.25)}
+.pill-r{background:var(--rd);color:var(--rose);border:1px solid rgba(255,77,143,.25)}
+
+/* BUTTON */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  padding:11px 20px;border-radius:var(--r3);font-size:13px;font-weight:700;transition:all .2s;cursor:pointer}
+.btn-primary{background:var(--cyan);color:#03060e;border:none}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px)}
+.btn-ghost{background:var(--glass);color:var(--text);border:1px solid var(--gb)}
+.btn-ghost:hover{border-color:var(--gb2);background:var(--gb)}
+.btn-full{width:100%}
+.btn-danger{background:var(--rd);color:var(--rose);border:1px solid rgba(255,77,143,.3)}
+
+/* CHECK ITEM */
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;
+  border-bottom:1px solid var(--gb);cursor:pointer;transition:opacity .2s}
+.check-item:last-child{border-bottom:none}
+.check-item.done{opacity:.55}
+.check-box{width:22px;height:22px;border-radius:6px;border:2px solid var(--gb2);
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;transition:all .2s}
+.check-item.done .check-box{background:var(--cyan);border-color:var(--cyan);color:#03060e}
+.check-text{flex:1}
+.check-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.check-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.sci-tag{display:inline-block;background:var(--vd);color:#a78bfa;border:1px solid rgba(124,58,237,.25);
+  border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:9px;margin-left:6px;vertical-align:middle}
+
+/* TOAST */
+#toast{position:fixed;bottom:calc(var(--nav-h) + 16px);left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--green);color:#03060e;padding:10px 20px;border-radius:100px;
+  font-size:13px;font-weight:700;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;pointer-events:none}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ==================== ONBOARDING ==================== */
+#onboarding{position:fixed;inset:0;z-index:100;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;overflow-y:auto}
+.ob-step{display:none;width:100%;max-width:420px;animation:fadeUp .4s ease}
+.ob-step.active{display:flex;flex-direction:column;gap:16px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.ob-logo{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;text-align:center;
+  background:linear-gradient(130deg,#fff,var(--cyan) 45%,var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ob-sub{text-align:center;color:var(--muted);font-size:14px;line-height:1.7}
+.ob-input{background:var(--surface);border:1px solid var(--gb2);border-radius:var(--r2);
+  padding:14px 16px;font-size:15px;color:var(--text);width:100%;
+  transition:border-color .2s}
+.ob-input:focus{border-color:var(--cyan)}
+.ob-input::placeholder{color:var(--dim)}
+.challenge-opt{padding:12px 16px;border-radius:var(--r2);border:1px solid var(--gb);
+  cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;
+  background:var(--glass)}
+.challenge-opt.sel{border-color:var(--cyan);background:var(--cyand)}
+.challenge-opt .co-check{width:20px;height:20px;border-radius:5px;border:2px solid var(--gb2);
+  display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0}
+.challenge-opt.sel .co-check{background:var(--cyan);border-color:var(--cyan);color:#03060e}
+.co-text{font-size:13px}
+.ob-dots{display:flex;gap:8px;justify-content:center;margin-top:8px}
+.ob-dot{width:8px;height:8px;border-radius:50%;background:var(--gb2);transition:all .3s}
+.ob-dot.active{background:var(--cyan);width:20px;border-radius:4px}
+
+/* ==================== DASHBOARD ==================== */
+.greeting{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;margin-bottom:4px}
+.greeting-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.day-hero{background:linear-gradient(135deg,var(--cyand),var(--vd));
+  border:1px solid rgba(0,229,255,.2);border-radius:var(--r);padding:18px;margin-bottom:16px;
+  position:relative;overflow:hidden}
+.day-hero::after{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;
+  border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,.1),transparent);pointer-events:none}
+.day-num-big{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;color:var(--cyan);line-height:1}
+.day-phase{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:1.5px;margin-bottom:4px}
+.day-name{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;margin-bottom:8px}
+.day-progress{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.circle-prog{width:42px;height:42px;position:relative;flex-shrink:0}
+.circle-prog svg{width:42px;height:42px;transform:rotate(-90deg)}
+.circle-prog circle{fill:none;stroke-width:3;stroke-linecap:round}
+.circle-bg{stroke:rgba(255,255,255,0.08)}
+.circle-fg{stroke:var(--cyan);transition:stroke-dashoffset .6s ease}
+.circle-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'DM Mono',monospace;font-size:10px;color:var(--cyan)}
+
+.quick-actions{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.quick-actions::-webkit-scrollbar{display:none}
+.qa-btn{flex-shrink:0;background:var(--card);border:1px solid var(--gb);border-radius:var(--r2);
+  padding:12px 14px;display:flex;flex-direction:column;align-items:center;gap:6px;
+  min-width:80px;cursor:pointer;transition:all .2s}
+.qa-btn:hover{border-color:var(--cyan);transform:translateY(-2px)}
+.qa-icon{font-size:22px}
+.qa-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap}
+
+.streak-row{display:flex;gap:4px;margin-top:12px}
+.streak-dot{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;
+  justify-content:center;font-size:11px;background:var(--glass);border:1px solid var(--gb)}
+.streak-dot.done{background:var(--cyand);border-color:rgba(0,229,255,.3)}
+.streak-dot.today{border-color:var(--cyan);box-shadow:0 0 8px var(--cyanglow)}
+
+/* ==================== PLAN SCREEN ==================== */
+.plan-days-scroll{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:18px;scrollbar-width:none}
+.plan-days-scroll::-webkit-scrollbar{display:none}
+.plan-day-pill{flex-shrink:0;width:48px;text-align:center;cursor:pointer;
+  padding:8px 4px;border-radius:var(--r2);border:1px solid var(--gb);
+  background:var(--glass);transition:all .2s;font-family:'DM Mono',monospace}
+.plan-day-pill .dp-num{font-size:16px;font-weight:700;color:var(--muted)}
+.plan-day-pill .dp-dot{width:6px;height:6px;border-radius:50%;background:var(--gb2);margin:4px auto 0}
+.plan-day-pill.active{border-color:var(--cyan);background:var(--cyand)}
+.plan-day-pill.active .dp-num{color:var(--cyan)}
+.plan-day-pill.active .dp-dot{background:var(--cyan)}
+.plan-day-pill.completed{border-color:rgba(0,255,163,.3);background:rgba(0,255,163,.06)}
+.plan-day-pill.completed .dp-num{color:var(--green)}
+.plan-day-pill.completed .dp-dot{background:var(--green)}
+.phase-banner{padding:12px 16px;border-radius:var(--r2);margin-bottom:14px;
+  font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;
+  display:flex;align-items:center;gap:8px}
+.day-summary-box{background:var(--glass);border-left:3px solid var(--cyan);
+  border-radius:0 var(--r3) var(--r3) 0;padding:12px 14px;margin-bottom:14px;
+  font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ==================== GAMES SCREEN ==================== */
+.game-hub{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.game-card{background:var(--card);border:1px solid var(--gb);border-radius:var(--r);
+  padding:16px;cursor:pointer;transition:all .2s;text-align:center}
+.game-card:hover{border-color:rgba(0,229,255,.3);transform:translateY(-2px);box-shadow:var(--shadow)}
+.game-card.active-game{border-color:var(--cyan);background:var(--cyand)}
+.game-emoji{font-size:30px;margin-bottom:8px}
+.game-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;margin-bottom:4px}
+.game-best{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted)}
+.game-arena{background:var(--card);border:1px solid var(--gb);border-radius:var(--r);
+  padding:18px;margin-bottom:12px;min-height:200px;display:none}
+.game-arena.active{display:block}
+.game-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--cyan);margin-bottom:4px}
+.game-instructions{font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.game-score-display{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;min-height:18px}
+
+/* N-BACK */
+.nb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:200px;margin:0 auto 14px}
+.nb-cell{aspect-ratio:1;border-radius:9px;background:var(--glass);border:2px solid var(--gb);transition:all .2s}
+.nb-cell.lit{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 16px var(--cyanglow)}
+.game-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.gbtn{padding:9px 18px;border-radius:var(--r3);border:1px solid;
+  font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;
+  background:transparent}
+.gbtn-c{border-color:var(--cyan);color:var(--cyan)}.gbtn-c:hover{background:var(--cyand)}
+.gbtn-r{border-color:var(--rose);color:var(--rose)}.gbtn-r:hover{background:var(--rd)}
+.gbtn-g{border-color:var(--green);color:var(--green)}.gbtn-g:hover{background:var(--gd)}
+.gbtn-a{border-color:var(--amber);color:var(--amber)}.gbtn-a:hover{background:var(--ad)}
+.gbtn-m{border-color:var(--muted);color:var(--muted)}.gbtn-m:hover{background:var(--glass)}
+
+/* REACTION */
+.rt-box{width:100%;height:90px;border-radius:var(--r2);background:var(--glass);
+  border:2px solid var(--gb);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-family:'DM Mono',monospace;font-size:13px;color:var(--muted);
+  transition:all .15s;user-select:none;margin-bottom:12px}
+.rt-box.go{background:var(--gd);border-color:var(--green);color:var(--green)}
+.rt-box.wait{background:var(--rd);border-color:var(--rose);color:var(--rose)}
+
+/* SEQ */
+.seq-grid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:14px}
+.seq-btn{width:64px;height:64px;border-radius:12px;border:2px solid var(--gb);
+  cursor:pointer;transition:all .15s;font-size:24px;display:flex;align-items:center;justify-content:center}
+.seq-btn:hover{transform:scale(1.05)}
+
+/* STROOP */
+.stroop-word{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;text-align:center;
+  padding:16px;letter-spacing:2px}
+.stroop-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.stroop-opt{padding:10px;border-radius:var(--r3);border:1px solid var(--gb);
+  background:var(--glass);cursor:pointer;font-family:'DM Mono',monospace;font-size:12px;
+  color:var(--text);transition:all .1s;font-weight:700}
+.stroop-opt:hover{background:var(--gb)}
+
+/* ==================== TIMERS SCREEN ==================== */
+.timer-cards{display:grid;gap:12px;margin-bottom:16px}
+.timer-card{background:var(--card);border:1px solid var(--gb);border-radius:var(--r);padding:20px}
+.timer-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.timer-display{font-family:'Syne',sans-serif;font-size:52px;font-weight:800;
+  color:var(--cyan);text-align:center;letter-spacing:3px;margin:10px 0}
+.timer-display.warning{color:var(--amber)}
+.timer-display.done{color:var(--green)}
+.timer-phase{text-align:center;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:12px}
+.timer-sessions{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+.timer-btns{display:flex;gap:8px;justify-content:center}
+.cold-level{text-align:center;font-size:24px;margin:8px 0;min-height:36px}
+
+/* ==================== HABITS SCREEN ==================== */
+.habit-check{display:flex;align-items:center;justify-content:space-between;
+  padding:13px 0;border-bottom:1px solid var(--gb)}
+.habit-check:last-child{border-bottom:none}
+.habit-left{display:flex;align-items:center;gap:12px}
+.habit-icon{font-size:20px}
+.habit-info .hn{font-size:13px;font-weight:700}
+.habit-info .hd{font-size:11px;color:var(--muted);margin-top:1px}
+.habit-toggle{width:44px;height:24px;border-radius:100px;border:2px solid var(--gb2);
+  background:var(--glass);cursor:pointer;position:relative;transition:all .3s;flex-shrink:0}
+.habit-toggle::after{content:'';position:absolute;width:16px;height:16px;border-radius:50%;
+  background:var(--muted);top:2px;left:2px;transition:all .3s}
+.habit-toggle.on{background:var(--cyand);border-color:var(--cyan)}
+.habit-toggle.on::after{background:var(--cyan);left:22px;box-shadow:0 0 8px var(--cyanglow)}
+.habit-week{display:flex;gap:4px;margin-left:auto;padding-left:10px}
+.hw-dot{width:24px;height:24px;border-radius:5px;background:var(--glass);border:1px solid var(--gb);
+  display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--dim)}
+.hw-dot.done{background:var(--cyand);border-color:rgba(0,229,255,.3);color:var(--cyan)}
+.hw-dot.today{border-color:var(--cyan)}
+.mood-row{display:flex;gap:8px;justify-content:center;margin:12px 0}
+.mood-btn{font-size:24px;cursor:pointer;padding:8px;border-radius:10px;border:1px solid var(--gb);
+  background:var(--glass);transition:all .15s}
+.mood-btn:hover,.mood-btn.sel{background:var(--cyand);border-color:var(--cyan);transform:scale(1.1)}
+
+/* ==================== PROGRESS SCREEN ==================== */
+.mini-chart{background:var(--card);border:1px solid var(--gb);border-radius:var(--r);
+  padding:16px;margin-bottom:12px}
+.chart-bars{display:flex;align-items:flex-end;gap:6px;height:80px;margin-top:12px}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.chart-bar{width:100%;border-radius:4px 4px 0 0;background:var(--cyand);border:1px solid rgba(0,229,255,.2);
+  min-height:4px;transition:height .6s ease}
+.chart-bar.today{background:var(--cyan);box-shadow:0 0 10px var(--cyanglow)}
+.chart-label{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted)}
+.achievement{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--gb)}
+.achievement:last-child{border-bottom:none}
+.ach-icon{font-size:22px}
+.ach-info .ai-title{font-size:13px;font-weight:700}
+.ach-info .ai-desc{font-size:11px;color:var(--muted)}
+.ach-info .ai-locked{color:var(--dim)}
+
+/* ==================== SETTINGS MODAL ==================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:50;
+  display:none;align-items:flex-end;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:480px;
+  padding:24px;max-height:80vh;overflow-y:auto;border-top:1px solid var(--gb);
+  animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-handle{width:40px;height:4px;border-radius:2px;background:var(--gb2);margin:0 auto 20px}
+.modal-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:18px}
+.setting-row{display:flex;align-items:center;justify-content:space-between;
+  padding:12px 0;border-bottom:1px solid var(--gb)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{font-size:13px;color:var(--text)}
+.setting-sub{font-size:11px;color:var(--muted)}
+
+/* ==================== MISC ==================== */
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .es-icon{font-size:40px;margin-bottom:12px}
+.empty-state .es-text{font-size:14px;line-height:1.6}
+.divider{height:1px;background:var(--gb);margin:16px 0}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.science-note{background:var(--vd);border:1px solid rgba(124,58,237,.25);
+  border-radius:var(--r3);padding:10px 12px;font-size:11px;color:#a78bfa;line-height:1.6;margin-top:8px}
+.completion-banner{background:linear-gradient(135deg,var(--gd),rgba(0,229,255,.08));
+  border:1px solid rgba(0,255,163,.25);border-radius:var(--r);padding:16px;text-align:center;margin-bottom:14px;display:none}
+.completion-banner.show{display:block}
+
+/* Responsive */
+@media(min-width:600px){
+  .screens,.bottom-nav{max-width:480px;margin:0 auto}
+  #app{align-items:center}
+  .screen{border-left:1px solid var(--gb);border-right:1px solid var(--gb)}
+}
+
+/* SCROLL INDICATOR */
+.scroll-hint{text-align:center;font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);margin-bottom:4px}
+
+/* Loading */
+.loading-screen{position:fixed;inset:0;z-index:200;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.loading-logo{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;
+  background:linear-gradient(130deg,#fff,var(--cyan),var(--violet));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.loading-bar{width:200px;height:3px;background:var(--gb);border-radius:100px;overflow:hidden}
+.loading-fill{height:100%;background:var(--cyan);border-radius:100px;animation:loadbar 1.2s ease forwards}
+@keyframes loadbar{from{width:0}to{width:100%}}
+.loading-text{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loading">
+  <div class="loading-logo">NeuroFlow</div>
+  <div class="loading-bar"><div class="loading-fill"></div></div>
+  <div class="loading-text">Initialising protocol...</div>
+</div>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="display:none">
+  <!-- Step 1: Welcome -->
+  <div class="ob-step active" id="ob1">
+    <div class="ob-logo">NeuroFlow</div>
+    <div class="ob-sub">Your 15-day science-backed protocol to reset dopamine, kill procrastination, and build a brain that works for you.</div>
+    <div class="science-note">📡 Based on research by Dr. Sanil Rege (PsychScene) & Dr. Andrew Huberman (Stanford Neurobiology)</div>
+    <button class="btn btn-primary btn-full" onclick="obNext(1)">Begin My Reset →</button>
+    <div class="ob-dots">
+      <div class="ob-dot active"></div><div class="ob-dot"></div><div class="ob-dot"></div>
+    </div>
+  </div>
+  <!-- Step 2: Name -->
+  <div class="ob-step" id="ob2">
+    <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:700">What should we call you?</div>
+    <div class="ob-sub">This helps us personalise your daily experience.</div>
+    <input class="ob-input" id="ob-name" placeholder="Your first name..." maxlength="20" autocomplete="off">
+    <button class="btn btn-primary btn-full" onclick="obNext(2)">Continue →</button>
+    <div class="ob-dots">
+      <div class="ob-dot"></div><div class="ob-dot active"></div><div class="ob-dot"></div>
+    </div>
+  </div>
+  <!-- Step 3: Challenges -->
+  <div class="ob-step" id="ob3">
+    <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:700">What are you fighting?</div>
+    <div class="ob-sub">Select your top challenges — we'll prioritise these each day.</div>
+    <div id="challenge-list">
+      <div class="challenge-opt sel" onclick="toggleChallenge(this,'procrastination')"><div class="co-check">✓</div><div class="co-text">😔 Procrastination — can't start tasks</div></div>
+      <div class="challenge-opt sel" onclick="toggleChallenge(this,'dopamine')"><div class="co-check">✓</div><div class="co-text">⚡ Low motivation / dopamine depletion</div></div>
+      <div class="challenge-opt" onclick="toggleChallenge(this,'brainfog')"><div class="co-check"></div><div class="co-text">🌫 Brain fog — can't think clearly</div></div>
+      <div class="challenge-opt" onclick="toggleChallenge(this,'doomscroll')"><div class="co-check"></div><div class="co-text">📱 Doomscrolling / phone addiction</div></div>
+      <div class="challenge-opt" onclick="toggleChallenge(this,'willpower')"><div class="co-check"></div><div class="co-text">💪 Weak willpower / instant gratification</div></div>
+      <div class="challenge-opt" onclick="toggleChallenge(this,'sleep')"><div class="co-check"></div><div class="co-text">😴 Poor sleep / fatigue</div></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="obFinish()">Start My 15-Day Reset 🚀</button>
+    <div class="ob-dots">
+      <div class="ob-dot"></div><div class="ob-dot"></div><div class="ob-dot active"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app" style="display:none">
+  <!-- Header -->
+  <div class="app-header">
+    <div class="logo">NeuroFlow</div>
+    <div class="hdr-right">
+      <div class="day-indicator" id="hdr-day">Day 1</div>
+      <span class="beta-badge">BETA</span>
+      <button class="hdr-btn" onclick="openSettings()">⚙</button>
+    </div>
+  </div>
+
+  <!-- Screen container -->
+  <div class="screens">
+
+    <!-- ════ DASHBOARD ════ -->
+    <div class="screen active" id="screen-home">
+      <div class="greeting" id="dash-greeting">Good morning! 👋</div>
+      <div class="greeting-sub" id="dash-sub">Let's make today count.</div>
+
+      <!-- Day Hero -->
+      <div class="day-hero">
+        <div class="day-phase" id="hero-phase">PHASE 1 — RESET</div>
+        <div style="display:flex;align-items:flex-end;gap:12px;margin-bottom:8px">
+          <div class="day-num-big" id="hero-day">1</div>
+          <div style="padding-bottom:8px">
+            <div class="day-name" id="hero-name">Digital Detox + Sleep Audit</div>
+            <div class="badge-row"><span class="pill pill-c" id="hero-focus">DOPAMINE RESET</span></div>
+          </div>
+        </div>
+        <div class="prog-wrap" style="margin-bottom:8px">
+          <div class="prog-label"><span>Today's Progress</span><span id="hero-pct">0%</span></div>
+          <div class="prog-bar"><div class="prog-fill" id="hero-prog" style="width:0;background:var(--cyan)"></div></div>
+        </div>
+        <div class="streak-row" id="streak-row"></div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="scroll-hint">Quick access ›</div>
+      <div class="quick-actions">
+        <div class="qa-btn" onclick="goTo('plan')"><div class="qa-icon">📅</div><div class="qa-label">Today's Plan</div></div>
+        <div class="qa-btn" onclick="goTo('timers')"><div class="qa-icon">⏱</div><div class="qa-label">Focus Timer</div></div>
+        <div class="qa-btn" onclick="launchTimer('cold')"><div class="qa-icon">🧊</div><div class="qa-label">Cold Shower</div></div>
+        <div class="qa-btn" onclick="launchTimer('nsdr')"><div class="qa-icon">🧘</div><div class="qa-label">NSDR</div></div>
+        <div class="qa-btn" onclick="goTo('games')"><div class="qa-icon">🧠</div><div class="qa-label">Brain Games</div></div>
+        <div class="qa-btn" onclick="goTo('habits')"><div class="qa-icon">✅</div><div class="qa-label">Habits</div></div>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="grid3" style="margin-bottom:16px">
+        <div class="stat-card"><div class="stat-val" id="stat-streak" style="color:var(--cyan)">0</div><div class="stat-label">Day Streak</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-tasks" style="color:var(--green)">0%</div><div class="stat-label">Overall</div></div>
+        <div class="stat-card"><div class="stat-val" id="stat-games" style="color:var(--amber)">0</div><div class="stat-label">Games Played</div></div>
+      </div>
+
+      <!-- Today's Top Protocols -->
+      <div class="sec-label">Today's Key Protocols</div>
+      <div id="dash-protocols"></div>
+
+      <!-- Motivational Science Note -->
+      <div id="dash-science" class="science-note" style="margin-bottom:12px"></div>
+    </div>
+
+    <!-- ════ PLAN ════ -->
+    <div class="screen" id="screen-plan">
+      <div class="sec-label">15-Day Protocol</div>
+      <div class="sec-title">My Brain Reset Plan</div>
+
+      <!-- Day Pills -->
+      <div class="plan-days-scroll" id="plan-pills"></div>
+
+      <!-- Day Detail -->
+      <div id="plan-day-detail"></div>
+    </div>
+
+    <!-- ════ GAMES ════ -->
+    <div class="screen" id="screen-games">
+      <div class="sec-label">Cognitive Training</div>
+      <div class="sec-title">Brain Games</div>
+      <div class="card-body" style="margin-bottom:14px;color:var(--muted)">5 minutes daily trains PFC, working memory & attention circuits. Based on Jaeggi et al. (2008) N-Back research.</div>
+
+      <div class="game-hub" id="game-hub">
+        <div class="game-card" onclick="selectGame('nback')">
+          <div class="game-emoji">🎯</div>
+          <div class="game-name">1-Back Memory</div>
+          <div class="game-best" id="gbest-nback">Best: 0</div>
+        </div>
+        <div class="game-card" onclick="selectGame('reaction')">
+          <div class="game-emoji">⚡</div>
+          <div class="game-name">Reaction Time</div>
+          <div class="game-best" id="gbest-reaction">Best: --ms</div>
+        </div>
+        <div class="game-card" onclick="selectGame('sequence')">
+          <div class="game-emoji">🧩</div>
+          <div class="game-name">Color Sequence</div>
+          <div class="game-best" id="gbest-sequence">Best: L0</div>
+        </div>
+        <div class="game-card" onclick="selectGame('stroop')">
+          <div class="game-emoji">🎨</div>
+          <div class="game-name">Stroop Test</div>
+          <div class="game-best" id="gbest-stroop">Best: 0%</div>
+        </div>
+      </div>
+
+      <!-- Game Arenas -->
+      <div class="game-arena" id="arena-nback">
+        <div class="game-title">1-Back Working Memory</div>
+        <div class="game-instructions">Press ✓ Match if the highlighted cell is in the SAME position as the PREVIOUS round. Trains: working memory, PFC activation. Do 5 minutes daily.</div>
+        <div class="game-score-display" id="nback-score">Press Start to begin</div>
+        <div class="nb-grid" id="nb-grid">
+          <div class="nb-cell" id="nb0"></div><div class="nb-cell" id="nb1"></div><div class="nb-cell" id="nb2"></div>
+          <div class="nb-cell" id="nb3"></div><div class="nb-cell" id="nb4"></div><div class="nb-cell" id="nb5"></div>
+          <div class="nb-cell" id="nb6"></div><div class="nb-cell" id="nb7"></div><div class="nb-cell" id="nb8"></div>
+        </div>
+        <div class="game-btns">
+          <button class="gbtn gbtn-g" onclick="G.nback.answer(true)">✓ Match</button>
+          <button class="gbtn gbtn-r" onclick="G.nback.answer(false)">✗ No Match</button>
+          <button class="gbtn gbtn-m" onclick="G.nback.start()">▶ Start</button>
+        </div>
+      </div>
+
+      <div class="game-arena" id="arena-reaction">
+        <div class="game-title">Reaction Time Test</div>
+        <div class="game-instructions">Wait for GREEN then click as fast as possible. Don't click on red! PFC inhibitory control. Under 250ms = excellent. 350ms+ = brain fog signal.</div>
+        <div class="game-score-display" id="rt-score">Click Start then wait...</div>
+        <div class="rt-box" id="rt-box" onclick="G.reaction.click()">Press Start</div>
+        <div class="game-btns">
+          <button class="gbtn gbtn-g" onclick="G.reaction.start()">▶ Start</button>
+          <button class="gbtn gbtn-m" onclick="G.reaction.reset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="game-arena" id="arena-sequence">
+        <div class="game-title">Colour Sequence Memory</div>
+        <div class="game-instructions">Watch the sequence, then repeat it in order. Trains hippocampal episodic memory. 7+ symbols = strong memory function.</div>
+        <div class="game-score-display" id="seq-score">Press Start to begin</div>
+        <div class="seq-grid">
+          <button class="seq-btn" style="background:var(--rd);border-color:var(--rose)" onclick="G.sequence.input(0)">🔴</button>
+          <button class="seq-btn" style="background:var(--gd);border-color:var(--green)" onclick="G.sequence.input(1)">🟢</button>
+          <button class="seq-btn" style="background:var(--cyand);border-color:var(--cyan)" onclick="G.sequence.input(2)">🔵</button>
+          <button class="seq-btn" style="background:var(--ad);border-color:var(--amber)" onclick="G.sequence.input(3)">🟡</button>
+        </div>
+        <div class="game-btns">
+          <button class="gbtn gbtn-c" onclick="G.sequence.start()">▶ Start</button>
+        </div>
+      </div>
+
+      <div class="game-arena" id="arena-stroop">
+        <div class="game-title">Stroop Colour-Word Test</div>
+        <div class="game-instructions">Select the INK COLOUR of the word — NOT what it says. Forces PFC to override automatic reading. Gold-standard executive control test.</div>
+        <div class="game-score-display" id="stroop-score">Press Start to begin</div>
+        <div class="stroop-word" id="stroop-word" style="color:var(--muted)">READY</div>
+        <div class="stroop-opts">
+          <button class="stroop-opt" style="color:#ff4d4d" onclick="G.stroop.answer('RED')">RED</button>
+          <button class="stroop-opt" style="color:var(--sky)" onclick="G.stroop.answer('BLUE')">BLUE</button>
+          <button class="stroop-opt" style="color:var(--green)" onclick="G.stroop.answer('GREEN')">GREEN</button>
+          <button class="stroop-opt" style="color:var(--amber)" onclick="G.stroop.answer('YELLOW')">YELLOW</button>
+        </div>
+        <div class="game-btns" style="margin-top:12px">
+          <button class="gbtn gbtn-c" onclick="G.stroop.start()">▶ Start</button>
+          <button class="gbtn gbtn-m" onclick="G.stroop.stop()">■ Stop</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ TIMERS ════ -->
+    <div class="screen" id="screen-timers">
+      <div class="sec-label">Focus & Recovery</div>
+      <div class="sec-title">Protocol Timers</div>
+
+      <!-- Pomodoro -->
+      <div class="timer-card c-cyan card" id="pomodoro-card">
+        <div class="timer-label">🍅 Pomodoro Focus</div>
+        <div class="timer-display" id="pomo-display">25:00</div>
+        <div class="timer-phase" id="pomo-phase">Focus Block — Work without distractions</div>
+        <div class="timer-btns">
+          <button class="btn btn-primary" onclick="T.pomo.toggle()" id="pomo-btn">▶ Start</button>
+          <button class="btn btn-ghost" onclick="T.pomo.reset()">↺ Reset</button>
+          <button class="btn btn-ghost" onclick="T.pomo.skip()">⏭ Skip</button>
+        </div>
+        <div class="timer-sessions" id="pomo-sessions">Sessions today: 0</div>
+      </div>
+
+      <!-- Cold Shower -->
+      <div class="timer-card c-sky card" id="cold-card">
+        <div class="timer-label">🧊 Cold Shower Protocol</div>
+        <div class="timer-display" id="cold-display">01:30</div>
+        <div class="cold-level" id="cold-emoji">❄️</div>
+        <div class="timer-phase" id="cold-phase">Raises baseline dopamine +250% for 2–4 hours (Šrámek et al.)</div>
+        <div class="timer-btns">
+          <button class="btn btn-primary" onclick="T.cold.toggle()" id="cold-btn" style="background:var(--sky);color:#03060e">▶ Start Cold</button>
+          <button class="btn btn-ghost" onclick="T.cold.reset()">↺ Reset</button>
+        </div>
+        <div class="timer-sessions" id="cold-streak">Cold showers this week: 0</div>
+      </div>
+
+      <!-- NSDR -->
+      <div class="timer-card c-violet card" id="nsdr-card">
+        <div class="timer-label">🧘 NSDR / Yoga Nidra</div>
+        <div class="timer-display" id="nsdr-display">10:00</div>
+        <div class="timer-phase" id="nsdr-phase">Non-Sleep Deep Rest — restores dopamine reserves</div>
+        <div class="timer-btns">
+          <button class="btn btn-primary" onclick="T.nsdr.toggle()" id="nsdr-btn" style="background:#7c3aed">▶ Begin NSDR</button>
+          <button class="btn btn-ghost" onclick="T.nsdr.setMins(10)">10m</button>
+          <button class="btn btn-ghost" onclick="T.nsdr.setMins(20)">20m</button>
+        </div>
+        <div class="science-note" style="margin-top:12px">Stickgold & Walker (2013): NSDR restores neurotransmitter baselines and consolidates learning formed in the preceding wake period.</div>
+      </div>
+    </div>
+
+    <!-- ════ HABITS ════ -->
+    <div class="screen" id="screen-habits">
+      <div class="sec-label">Daily Tracking</div>
+      <div class="sec-title">Habit Tracker</div>
+      <div class="card-body" style="margin-bottom:16px;color:var(--muted)">Track these 7 core habits daily. Each builds a specific neural circuit. Tap to toggle.</div>
+
+      <div class="card" id="habits-card"></div>
+
+      <div class="divider"></div>
+      <div class="sec-label">How's your energy today?</div>
+      <div class="mood-row" id="mood-row">
+        <button class="mood-btn" onclick="setMood(1)" title="Terrible">😫</button>
+        <button class="mood-btn" onclick="setMood(2)" title="Low">😕</button>
+        <button class="mood-btn" onclick="setMood(3)" title="Okay">😐</button>
+        <button class="mood-btn" onclick="setMood(4)" title="Good">🙂</button>
+        <button class="mood-btn" onclick="setMood(5)" title="Great">😄</button>
+      </div>
+      <div id="mood-note" style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:16px"></div>
+
+      <div class="divider"></div>
+      <div class="sec-label">This Week</div>
+      <div class="card" id="week-card"></div>
+    </div>
+
+    <!-- ════ PROGRESS ════ -->
+    <div class="screen" id="screen-progress">
+      <div class="sec-label">Your Journey</div>
+      <div class="sec-title">Progress & Stats</div>
+
+      <!-- Overall Progress -->
+      <div class="card c-cyan">
+        <div class="card-title" style="color:var(--cyan)">Overall Completion</div>
+        <div class="prog-wrap">
+          <div class="prog-label"><span id="prog-days-label">Day 1 of 15</span><span id="prog-pct-label">0%</span></div>
+          <div class="prog-bar" style="height:10px"><div class="prog-fill" id="prog-overall" style="width:0;background:linear-gradient(90deg,var(--cyan),var(--violet))"></div></div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid2" style="margin-bottom:14px">
+        <div class="stat-card">
+          <div class="stat-val" id="prog-streak" style="color:var(--cyan)">0</div>
+          <div class="stat-label">Day Streak</div>
+          <div class="stat-sub">Keep going!</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="prog-protocols" style="color:var(--green)">0</div>
+          <div class="stat-label">Protocols Done</div>
+          <div class="stat-sub">Total completed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="prog-habits" style="color:var(--amber)">0</div>
+          <div class="stat-label">Habits Logged</div>
+          <div class="stat-sub">Across all days</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="prog-sessions" style="color:var(--violet)">0</div>
+          <div class="stat-label">Focus Sessions</div>
+          <div class="stat-sub">Pomodoro total</div>
+        </div>
+      </div>
+
+      <!-- 15-Day Visual -->
+      <div class="mini-chart">
+        <div class="card-title" style="color:var(--cyan)">15-Day Completion Overview</div>
+        <div class="chart-bars" id="chart-bars"></div>
+      </div>
+
+      <!-- Habits Chart -->
+      <div class="mini-chart">
+        <div class="card-title" style="color:var(--green)">Habit Completion Rate</div>
+        <div id="habits-chart"></div>
+      </div>
+
+      <!-- Achievements -->
+      <div class="sec-label" style="margin-top:4px">Achievements</div>
+      <div class="card" id="achievements"></div>
+    </div>
+
+  </div><!-- end screens -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="goTo('home')"><div class="nav-icon">🏠</div><div class="nav-label">Home</div></div>
+    <div class="nav-item" onclick="goTo('plan')"><div class="nav-icon">📅</div><div class="nav-label">Plan</div></div>
+    <div class="nav-item" onclick="goTo('games')"><div class="nav-icon">🧠</div><div class="nav-label">Games</div></div>
+    <div class="nav-item" onclick="goTo('timers')"><div class="nav-icon">⏱</div><div class="nav-label">Timers</div></div>
+    <div class="nav-item" onclick="goTo('habits')"><div class="nav-icon">✅</div><div class="nav-label">Track</div></div>
+    <div class="nav-item" onclick="goTo('progress')"><div class="nav-icon">📊</div><div class="nav-label">Progress</div></div>
+  </div>
+</div><!-- end app -->
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Settings Modal -->
+<div class="modal-overlay" id="settings-modal" onclick="closeSettings(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Settings</div>
+    <div class="setting-row">
+      <div><div class="setting-label">Name</div><div class="setting-sub" id="set-name">—</div></div>
+      <button class="btn btn-ghost" onclick="editName()" style="font-size:12px;padding:6px 12px">Edit</button>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">App Version</div><div class="setting-sub">NeuroFlow Beta v0.1.0</div></div>
+      <span class="pill pill-r">BETA</span>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Start Date</div><div class="setting-sub" id="set-startdate">—</div></div>
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-label">Export My Data</div><div class="setting-sub">Download JSON backup</div></div>
+      <button class="btn btn-ghost" onclick="exportData()" style="font-size:12px;padding:6px 12px">Export</button>
+    </div>
+    <div class="divider"></div>
+    <div class="setting-row">
+      <div><div class="setting-label" style="color:var(--rose)">Reset All Data</div><div class="setting-sub">Start the 15 days over</div></div>
+      <button class="btn btn-danger" onclick="resetApp()" style="font-size:11px;padding:6px 12px">Reset</button>
+    </div>
+    <div class="science-note" style="margin-top:16px">📚 Sources: Dr. Sanil Rege (PsychScene) · Dr. Andrew Huberman (Stanford) · 10+ peer-reviewed studies. Not medical advice.</div>
+    <div style="margin-top:12px;text-align:center;font-family:'DM Mono',monospace;font-size:10px;color:var(--dim)">
+      Deploy on GitHub Pages: upload index.html → Settings → Pages → main
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  DATA — 15-DAY PROTOCOL
+// ============================================================
+const DAYS = [
+  {
+    day:1, phase:1, phaseName:'RESET',
+    name:'Digital Detox + Sleep Audit',
+    focus:'DOPAMINE RESET · CIRCADIAN ANCHOR',
+    phaseColor:'var(--cyan)',
+    summary:'Your dopamine receptors are desensitised from chronic overstimulation. Day 1 is about measuring your baseline and beginning the quieting process. Small boundaries today, major neurological changes ahead.',
+    science:'Dr Rege: tonic dopamine depletion drives procrastination at its root. Huberman: first step is measuring your "dopamine load" so you know what you\'re fixing.',
+    protocols:[
+      {title:'☀️ Morning Sunlight (10 min)', desc:'Step outside within 30 minutes of waking. No sunglasses. This activates retinal ganglion cells that anchor your hypothalamic circadian clock and sets your natural cortisol alerting pulse.', sci:'Circadian Biology'},
+      {title:'📱 Screen Time Audit', desc:'Check your Settings → Screen Time. Write down today\'s total. This is your baseline "dopamine load." Most people discover 5–8 hours/day. No judgment — just data.', sci:'Behavioural Audit'},
+      {title:'🌙 No Social Media After 8 PM', desc:'Install app limits capping social media to 15 min/day. Enable Greyscale mode on your phone (Settings → Accessibility → Color Filters). Color is a dopamine trigger.', sci:'Huberman Lab'},
+      {title:'✍️ Procrastination Journal', desc:'Write the 3 things you\'ve been most avoiding. For each, write: "What emotion arises when I think about starting this?" Name the fear. This activates the metacognitive PFC loop.', sci:'Dr Rege, PsychScene'},
+      {title:'🛏 Bedroom Phone-Free', desc:'Charge your phone outside the bedroom tonight. No screens 60 min before bed. Dim warm light in the evening. Target sleep by 10:30–11 PM.', sci:'Sleep Architecture'}
+    ]
+  },
+  {
+    day:2, phase:1, phaseName:'RESET',
+    name:'Cold Exposure Protocol Begins',
+    focus:'BASELINE DOPAMINE +250% · WILLPOWER CIRCUIT',
+    phaseColor:'var(--cyan)',
+    summary:'Cold water immersion produces a sustained 250–300% increase in baseline dopamine lasting 2–4 hours — no crash, unlike caffeine. Today you begin the cold protocol that will directly build your PFC\'s override of the limbic escape reflex.',
+    science:'Šrámek et al. (European J. of Applied Physiology): cold immersion sustained dopamine elevation 250–300% above baseline for 2–4 hours post-exposure.',
+    protocols:[
+      {title:'🧊 Cold Shower Protocol (30–90 sec)', desc:'End your normal shower with 30–90 seconds of cold water. Breathe steadily — do NOT turn warm again after. Calm, steady breath in the cold = PFC over amygdala. That\'s the training.', sci:'Šrámek et al. 2000'},
+      {title:'📊 Rate Your Resistance', desc:'Immediately after, rate how hard it was on a scale of 1–10. Write it in the app or a notebook. You will track this for 15 days. Most people drop from 9/10 to 3/10 by Day 10 — measurable neurological proof.', sci:'Neuroadaptation'},
+      {title:'☀️ Morning Sunlight (10 min)', desc:'Same as Day 1. Consistency is more important than duration. Even 5 minutes beats none.', sci:'Circadian Rhythm'},
+      {title:'🧘 NSDR — 10 min', desc:'Non-Sleep Deep Rest (search "Yoga Nidra 10 minutes" on YouTube). Lie down and follow a body-scan script. This repletes dopamine and norepinephrine stores without full sleep.', sci:'Stickgold & Walker 2013'},
+      {title:'☕ No Caffeine After 1 PM', desc:'Caffeine has a 5–6 hour half-life. A 2 PM coffee means 50% is still in your system at 7 PM, directly suppressing the adenosine sleep-pressure signal and destroying deep sleep architecture.', sci:'Adenosine Science'}
+    ]
+  },
+  {
+    day:3, phase:1, phaseName:'RESET',
+    name:'Aerobic Exercise + Grey Matter Protocol',
+    focus:'BDNF · HIPPOCAMPUS · GREY MATTER GROWTH',
+    phaseColor:'var(--cyan)',
+    summary:'Aerobic exercise is the single most validated intervention for grey matter growth and BDNF ("brain fertiliser"). Erickson et al. (2011): one year of aerobic exercise increased hippocampal volume 2%. Even one session boosts cerebral blood flow for 2–3 hours.',
+    science:'Erickson et al. PNAS 2011: 1 year aerobic exercise → +2% hippocampal volume, reversing 1–2 years of age-related decline. Spatial memory improved proportionally.',
+    protocols:[
+      {title:'🏃 25-min Zone 2 Cardio', desc:'Brisk walk, jog, cycle — pace where you can talk but feel slightly breathless. No podcasts for the first 10 minutes. Let your Default Mode Network wander. This reduces brain fog actively.', sci:'Erickson et al. 2011'},
+      {title:'⚡ Post-Exercise BDNF Window', desc:'Immediately after exercise, do 20 min of focused work or learning. BDNF release post-exercise creates a neuroplasticity window — new information encodes more deeply in this state. This is your best cognitive window.', sci:'BDNF Research'},
+      {title:'🥚 Tyrosine-Rich Breakfast', desc:'Eat eggs, Greek yoghurt, chicken, or almonds. L-tyrosine is the direct amino acid precursor to dopamine. Your brain cannot synthesise dopamine without it. Most poor diets are tyrosine-deficient.', sci:'Nutrition Science'},
+      {title:'🧊 Cold Shower', desc:'Continue the protocol from Day 2. Rate difficulty. Note any change. Each day it should feel slightly easier — that is neurological adaptation occurring.', sci:'Adaptation'},
+      {title:'📖 Replace Screen Time with Reading', desc:'Physical book, 15–20 minutes before bed. Visual reading activates different cortical circuits than scrolling and provides a gentle, non-spike dopamine input.', sci:'Reading Research'}
+    ]
+  },
+  {
+    day:4, phase:1, phaseName:'RESET',
+    name:'Attention Anchoring + PFC Activation',
+    focus:'PREFRONTAL CORTEX · IMPULSE CONTROL',
+    phaseColor:'var(--cyan)',
+    summary:'The PFC says "yes," "no," or "not now" to all other brain regions. Doomscrolling weakens it. Focused attention practice physically strengthens it. Dr Rege\'s sensory rehearsal — imagining yourself mid-task before starting — primes the dopamine signal toward task START.',
+    science:'Aron et al. Nature Reviews Neuroscience: right inferior frontal cortex + subthalamic nucleus form the brain\'s brake circuit — trainable with deliberate attention.',
+    protocols:[
+      {title:'🧘 10-min Focused Meditation', desc:'Sit upright, set timer for 10 min, focus on your breath. When your mind wanders (it will), gently return focus. Each return IS the exercise — a literal PFC rep. 8 weeks builds measurable anterior cingulate cortex thickness.', sci:'Meditation Neuroscience'},
+      {title:'🎯 Sensory Rehearsal Before Tasks', desc:'Before starting any work session: close eyes, 60 seconds, vividly imagine yourself already mid-task — typing, writing, solving. This primes the motor cortex and shifts the phasic dopamine signal to fire at START rather than END.', sci:'Dr Rege, PsychScene'},
+      {title:'⏱ 25-min Deep Focus Blocks', desc:'Phone in another room — not face-down, literally another room. When you feel the urge to check it, apply the 90-second pause rule: neurological urges peak and subside within 90 seconds. Wait it out.', sci:'Huberman Lab'},
+      {title:'🔪 Task Chunking', desc:'Take your #1 procrastinated task. Break it into 5-minute micro-completions. Each mini-completion fires an earlier phasic dopamine signal — training your brain\'s reward clock to fire sooner on that task type.', sci:'Dr Rege Protocol'},
+      {title:'🧘 NSDR (15 min)', desc:'Same time each evening. Consistent timing creates a routine restoration anchor for dopamine and norepinephrine.', sci:'NSDR Protocol'}
+    ]
+  },
+  {
+    day:5, phase:1, phaseName:'RESET',
+    name:'Partial Dopamine Fast Day',
+    focus:'RECEPTOR SENSITIVITY · REWARD RECALIBRATION',
+    phaseColor:'var(--cyan)',
+    summary:'Dopamine receptors become desensitised under chronic stimulation. A partial fast restores sensitivity, making natural rewards feel genuinely satisfying again. Dr Lembke (Dopamine Nation): 30 days needed for severe cases — Day 5 is the first meaningful inflection point.',
+    science:'Lembke, Dopamine Nation (2021): digital overstimulation drives chronic dopamine deficits — not spikes. Receptor sensitivity restores with periodic abstinence.',
+    protocols:[
+      {title:'📵 Zero Social Media All Day', desc:'No YouTube, Instagram, TikTok, Twitter, Reddit — all day. Use grayscale mode. Withdrawal anxiety that arises is the feeling of your dopamine system recalibrating. Write that in your journal.', sci:'Lembke 2021'},
+      {title:'🔇 No Background Noise While Working', desc:'No music, no podcasts, no TV background. Sit with silence. The discomfort of silence is the stimulus for dopamine receptor upregulation. Each minute of silence is a rep.', sci:'Stimulation Fast'},
+      {title:'🌿 30-min Outdoor Walk', desc:'Outdoors, no headphones. By Day 5, many people begin noticing natural environments feel more vivid — this is receptor upregulation beginning. If you feel this, note it.', sci:'Nature Neuroscience'},
+      {title:'🍳 Cook a Meal From Scratch', desc:'Manual tasks (chopping, cooking) activate motor cortex reward circuits without spiking dopamine. This reacquaints your brain with the experience of doing as inherently satisfying.', sci:'Craft Reward Circuit'},
+      {title:'📔 Dependency Map Journal', desc:'Write: what felt hardest today without stimulation? List every moment you wanted your phone. This is your personal dopamine dependency map — and shows exactly which circuits need the most rehabilitation.', sci:'Metacognition'}
+    ]
+  },
+  {
+    day:6, phase:2, phaseName:'REWIRE',
+    name:'Cue-Based Reward Pairing',
+    focus:'PHASIC DOPAMINE TIMING · DR REGE PROTOCOL',
+    phaseColor:'var(--violet)',
+    summary:'Dr Rege\'s core protocol: pair a specific sensory cue with task initiation. Over 6–10 repetitions, the brain releases anticipatory phasic dopamine the moment it detects the cue — essentially Pavlovian conditioning to fire motivation at task START rather than END.',
+    science:'Dr Sanil Rege (PsychScene): cue-based reward pairing shifts phasic dopamine signal from task completion to task initiation — directly addressing the timing mismatch that causes procrastination.',
+    protocols:[
+      {title:'🎯 Design Your Start Cue', desc:'Choose a multi-sensory signal used ONLY at task start: e.g., peppermint oil on wrists + specific 90-sec instrumental clip + opening a dedicated notebook. This combination becomes your conditioned initiation trigger. Only use it for work.', sci:'Dr Rege, PsychScene'},
+      {title:'🔁 Use Cue Consistently All Day', desc:'Apply this cue before every work session today. Do NOT use it at other times — it must remain exclusively paired with task start to preserve conditioning potency. By Day 10 this will fire motivation automatically.', sci:'Classical Conditioning'},
+      {title:'💪 30-min Resistance Training', desc:'Compound lifts (squats, push-ups, rows) spike testosterone + dopamine + BDNF simultaneously. Three key neurochemicals for grey matter health and motivation. Even bodyweight at home is effective.', sci:'Exercise Neuroscience'},
+      {title:'🎯 Effort-as-Reward Reframe', desc:'Start first work session WITHOUT coffee, music, or any pre-work reward. Observe the discomfort. That discomfort IS neuroplasticity activating. Sit in it, breathe, begin. Intrinsic motivation grows with each session you do this.', sci:'Huberman Lab'},
+      {title:'📚 Physical Book 20 min', desc:'Not an audiobook. Visual reading activates different circuits and provides clean dopamine input without overstimulation. Make this part of your evening wind-down.', sci:'Reading Neuroscience'}
+    ]
+  },
+  {
+    day:7, phase:2, phaseName:'REWIRE',
+    name:'Hypothalamus Regulation',
+    focus:'HYPOTHALAMUS · CIRCADIAN BIOLOGY · HORMONES',
+    phaseColor:'var(--violet)',
+    summary:'The hypothalamus controls sleep, body temperature, hunger, and hormonal release — all of which feed into motivation and energy. When it\'s dysregulated (irregular sleep, late eating, artificial light), the entire motivational architecture collapses.',
+    science:'Circadian biology: the suprachiasmatic nucleus of the hypothalamus governs all biological timekeeping. Regular light exposure, meal timing, and temperature regulation are its primary inputs.',
+    protocols:[
+      {title:'⏰ Same Wake Time as Yesterday', desc:'Regardless of sleep quality, wake at the same time. Consistent wake time is the single most powerful anchor for the hypothalamic master clock. More important than bedtime.', sci:'Circadian Biology'},
+      {title:'🍽 Last Meal 3–4 Hours Before Bed', desc:'Late digestion elevates core body temperature, disrupting the hypothalamic temperature drop needed to initiate deep sleep. This is the sleep rule most people violate nightly.', sci:'Sleep Thermology'},
+      {title:'❄️ Cool Bedroom (65–68°F / 18–20°C)', desc:'Set your bedroom temperature to 65–68°F. The hypothalamus requires core cooling to initiate deep NREM sleep — where most dopamine and norepinephrine replenishment occurs.', sci:'Thermal Sleep Science'},
+      {title:'🏃 Exercise at Same Time as Previous Days', desc:'Consistent exercise timing entrains your hypothalamic ultradian rhythm and aligns your cortisol peak timing. Same time = stronger habit loop + stronger circadian signal.', sci:'Circadian Entrainment'},
+      {title:'📊 Track Energy at 10 AM', desc:'Rate your energy 1–10 at 10 AM today. Do this for remaining days. By Day 10–12 most people see a consistent upward trend — that is receptor resensitisation visible in real time.', sci:'Self-Monitoring'}
+    ]
+  },
+  {
+    day:8, phase:2, phaseName:'REWIRE',
+    name:'Anti-Doomscroll Architecture',
+    focus:'VARIABLE REWARD INTERRUPT · ENVIRONMENTAL DESIGN',
+    phaseColor:'var(--violet)',
+    summary:'Doomscrolling exploits variable ratio reinforcement — the most addiction-forming reward schedule (Skinner, 1938). Every scroll MIGHT return something interesting. This unpredictability maximises dopamine anticipation. You cannot beat this with willpower alone. You need environmental design.',
+    science:'Behavioural research: variable ratio reinforcement schedules (as used in social media algorithms) produce the most persistent and resistant behaviour patterns known in psychology.',
+    protocols:[
+      {title:'📁 Relocate All Social Apps', desc:'Move every social media app from your home screen into a folder inside a folder (or last page). Adding 2–3 seconds of friction reduces usage by 40–60% in research. Don\'t delete — just add friction.', sci:'Friction Design'},
+      {title:'⏱ 15-min Daily Hard Limit', desc:'Set hard screen time limits: 15 min/day total social media. When the limit fires, you must manually override — that manual step forces PFC engagement and creates a real choice point rather than a reflex.', sci:'Behavioural Architecture'},
+      {title:'🫁 The 90-Second Scroll Interrupt', desc:'Every time you feel the urge to scroll: pause, 5 deep breaths, ask "What am I actually feeling right now?" Boredom? Anxiety? Loneliness? Avoidance? Naming the emotion routes the signal through PFC rather than limbic reflex.', sci:'Dr Rege + Huberman'},
+      {title:'📵 1 Hour Analogue Time', desc:'Designate 5–6 PM (or similar) with zero screens. Read, draw, stretch, cook, call someone. This hour is dopamine recovery time. Protect it.', sci:'Sensory Balance'},
+      {title:'🔘 Greyscale Full Time', desc:'Keep greyscale on 24/7 now, not just evenings. The colour of apps is engineered to trigger dopamine. Greyscale reduces click-through rates by up to 30%. One settings toggle = free willpower.', sci:'Design Psychology'}
+    ]
+  },
+  {
+    day:9, phase:2, phaseName:'REWIRE',
+    name:'Willpower Circuit Training (AMCC)',
+    focus:'ANTERIOR MID-CINGULATE CORTEX · DETERMINATION',
+    phaseColor:'var(--violet)',
+    summary:'Neuroscientist Lisa Feldman Barrett identifies the anterior mid-cingulate cortex (AMCC) as the neurological seat of grit and determination. It physically grows when you do things you don\'t want to do. It atrophies when you consistently take the easy path.',
+    science:'Lisa Feldman Barrett (How Emotions Are Made): the AMCC is the substrate of "effortful willingness" — the capacity to act against your immediate preferences. It\'s trainable like a muscle.',
+    protocols:[
+      {title:'💪 The AMCC Daily Rule', desc:'Each day: identify ONE thing you were about to avoid — and do it first. Make your bed before you feel like it. Exercise before coffee. Answer the difficult email before the easy ones. The specificity of "I didn\'t want to but I did" is the training stimulus.', sci:'AMCC Neuroscience'},
+      {title:'🧊 Cold Shower', desc:'Still daily. By Day 9, resistance should be noticeably lower. That change is measurable PFC strengthening over your limbic escape reflex. You are literally building willpower in real time.', sci:'Neuroadaptation'},
+      {title:'⏱ 60-min Deep Work — No Music', desc:'Silence during focused work IS the discomfort. That discomfort is the AMCC training stimulus. Breathe. Work. The silence will become comfortable by the end of this session.', sci:'Deep Work Science'},
+      {title:'🧘 NSDR 15 min Midday', desc:'Check: is your afternoon energy and focus improving vs Day 1? Most people see a clear improvement by Day 9. This is your protocol working.', sci:'Recovery Science'},
+      {title:'🍫 Voluntary Discomfort Practice', desc:'Skip dessert OR skip the extra episode OR close the browser tab you\'re avoiding. One deliberate sacrifice. Small. Repeated daily. This is the rep that compounds into profound neurological change.', sci:'Inhibitory Control'}
+    ]
+  },
+  {
+    day:10, phase:2, phaseName:'REWIRE',
+    name:'Instant Gratification Rewiring',
+    focus:'TEMPORAL DISCOUNTING · DELAY TOLERANCE',
+    phaseColor:'var(--violet)',
+    summary:'Instant gratification is neurologically called temporal discounting — the brain devalues future rewards exponentially. A dopamine-depleted brain discounts even more aggressively. Mischel\'s research shows this is trainable. Today you begin systematically expanding your reward time horizon.',
+    science:'Temporal discounting research: dopamine-depleted states steepen the discounting curve, making distant goals feel neurologically weightless. Restoration of baseline reverses this.',
+    protocols:[
+      {title:'🔢 The 10-10-10 Rule', desc:'Before acting on any impulse (snacking, scrolling, avoiding), pause and ask: "How will I feel about this in 10 minutes? 10 hours? 10 days?" This cognitive time-travel activates PFC temporal planning functions and weakens immediacy bias.', sci:'Decision Neuroscience'},
+      {title:'📝 Write Your 30-Day Goal Physically', desc:'Write one meaningful 30-day goal on paper. Visualise its completion in vivid sensory detail for 2 minutes. Emotional future visualisation activates PFC connectivity to the reward prediction error circuit — making the future goal feel MORE real and present.', sci:'Huberman Lab'},
+      {title:'🔬 L-Tyrosine (Optional)', desc:'300–500mg L-tyrosine taken 30–60 min before your most cognitively demanding session. This raises dopamine availability without a crash. Use strategically, not daily. Reference: Shurtleff et al. (Pharmacology Biochemistry and Behavior).', sci:'Shurtleff et al.'},
+      {title:'📔 Identity Reflection', desc:'Write 3 moments today where you chose the longer, harder path. This builds narrative identity — when you consistently narrate yourself as someone who does hard things, the brain predicts this as self-consistent and rewards its continuation.', sci:'Identity Research'},
+      {title:'🧊 Cold + Meditation Combo', desc:'Cold shower immediately followed by 5 min of focused breathing. The combination creates a powerful PFC activation state that carries into the rest of your morning. Stack these from now on.', sci:'Neurological Priming'}
+    ]
+  },
+  {
+    day:11, phase:3, phaseName:'MASTER',
+    name:'Brain Fog Elimination Protocol',
+    focus:'INFLAMMATION · INSULIN · CEREBRAL OXYGENATION',
+    phaseColor:'var(--green)',
+    summary:'Brain fog has four primary drivers: neuroinflammation (poor diet, poor sleep), insulin dysregulation (refined carbs), cerebral under-oxygenation (sedentary), and neurotransmitter depletion. Today targets all four simultaneously.',
+    science:'Metabolic neuroscience: ultra-processed food spikes insulin → suppresses BDNF → impairs cortical function. This mechanism is now considered a primary driver of brain fog in otherwise healthy people.',
+    protocols:[
+      {title:'🫁 Box Breathing (2 min on waking)', desc:'Inhale 4 counts, hold 4, exhale 4, hold 4. Repeat 8 cycles. Trains CO2 tolerance and immediately increases cerebral blood flow. Do this before any screen exposure. Takes 2 minutes, clears morning fog completely.', sci:'Respiratory Neuroscience'},
+      {title:'🥗 Eliminate Ultra-Processed Food Today', desc:'Refined carbohydrates spike insulin, which suppresses BDNF and cortical function. Today eat only whole foods: eggs, oats, berries, nuts, avocado, salmon. These contain the raw substrate for dopamine, BDNF, and myelin.', sci:'Metabolic Neuroscience'},
+      {title:'🐟 Add Omega-3s Daily', desc:'Eat salmon, sardines, mackerel, or walnuts. Or take 1–2g EPA/DHA fish oil. DHA is a structural component of neuronal membranes — low DHA directly correlates with reduced grey matter density.', sci:'Nutrition Science'},
+      {title:'🚶 20-min Vigorous Midday Walk', desc:'Walking increases cerebral oxygenation for 2–3 hours post-exercise. Take it without headphones. Let the Default Mode Network process and clear. Notice how your afternoon focus changes after this.', sci:'Exercise & Brain Blood Flow'},
+      {title:'🚫 Alcohol = Zero', desc:'Even moderate alcohol suppresses PFC function for up to 24 hours post-drink and severely disrupts REM sleep. During this 15-day reset, zero alcohol is non-negotiable. Your brain needs every bit of recovery.', sci:'Neurotoxicology'}
+    ]
+  },
+  {
+    day:12, phase:3, phaseName:'MASTER',
+    name:'Hippocampus Growth Sprint',
+    focus:'NEUROGENESIS · MEMORY · LEARNING',
+    phaseColor:'var(--green)',
+    summary:'The hippocampus is the primary site of adult neurogenesis (Eriksson et al., 1998) and is critical for converting short-term experience into long-term memory. It shrinks with stress and sedentary behaviour, and grows with exercise, novelty, and quality sleep.',
+    science:'Eriksson et al. Nature Medicine 1998: confirmed adult hippocampal neurogenesis in humans — new neurons form throughout life. Exercise and novelty are the primary triggers.',
+    protocols:[
+      {title:'🎓 Learn Something Genuinely New (20 min)', desc:'Pick one completely new skill or domain — a language phrase, a musical scale, a drawing technique, a coding concept. Genuine novelty triggers hippocampal Long-Term Potentiation (LTP) — the synaptic mechanism of learning. Familiar information processed differently doesn\'t trigger this.', sci:'LTP Research'},
+      {title:'🔄 Spaced Repetition Review', desc:'In the morning, review what you learned last night. In the evening, review what you learned this morning. The spacing effect multiplies memory consolidation exponentially (Ebbinghaus forgetting curve).', sci:'Spaced Repetition'},
+      {title:'🏃 30-min Aerobic Exercise', desc:'The most robustly validated hippocampal volume builder in humans. Erickson et al. 2011; Van Praag et al. 2014. Consistent moderate-to-high intensity aerobic exercise, sustained over months, produces measurable structural change.', sci:'Erickson et al. 2011'},
+      {title:'⚡ Study in the Post-Exercise BDNF Window', desc:'BDNF peaks 20–30 min after aerobic exercise. Learning during this window results in deeper encoding. This is your golden study window — use it every day from now on.', sci:'BDNF Timing'},
+      {title:'😴 Prioritise Deep Sleep Tonight', desc:'The hippocampus replays today\'s experiences during slow-wave sleep, transferring information to long-term cortical storage. Without this replay, today\'s learning is largely lost. Non-negotiable.', sci:'Sleep Memory Consolidation'}
+    ]
+  },
+  {
+    day:13, phase:3, phaseName:'MASTER',
+    name:'Dopamine Architecture Review',
+    focus:'SUSTAINABLE MOTIVATION DESIGN',
+    phaseColor:'var(--green)',
+    summary:'By Day 13, your receptors have resensitised measurably. Today you audit and redesign your personal dopamine architecture — the ecosystem of rewards, stimulants, and habits surrounding your work — to make your motivation permanently sustainable.',
+    science:'Huberman: dopamine "stacking" (layering multiple reward stimuli onto activities) erodes intrinsic motivation. Stripping back the stack restores the work\'s inherent reward signal.',
+    protocols:[
+      {title:'🔍 Dopamine Stack Audit', desc:'List every behaviour/substance that precedes your work sessions. Coffee? Music? Social media check? Each pre-loads dopamine, making the work feel unrewarding by comparison. Huberman: strip back the stack. Start work at or near baseline. This is the skill.', sci:'Huberman Lab'},
+      {title:'🎯 Move Rewards Post-Work', desc:'Design your reward to come AFTER work completion — not before. This preserves intrinsic motivation for the task AND gives the reward prediction error circuit something to anticipate, sustaining drive through the session.', sci:'Reward Architecture'},
+      {title:'📋 Build Your Dopamine Menu', desc:'Write a list of 10 activities that raise your baseline dopamine without crashing it: cold shower, 20-min walk, conversation with a friend, cooking, music, brief game, reading, crafting. This becomes your procrastination-interrupt toolkit.', sci:'Huberman Lab'},
+      {title:'🧊 Cold Shower + Compare to Day 2', desc:'How does today\'s cold shower resistance compare to Day 2? Write the number. Most people: 8–9 on Day 2, 2–4 on Day 13. That measured change is direct evidence of your growing PFC circuit strength.', sci:'Neurological Proof'},
+      {title:'📊 Mid-Protocol Data Check', desc:'Review your Day 1 sleep log, energy scores, and today\'s equivalent. What has changed? This reflection consolidates the narrative of transformation — which the brain uses to predict and sustain future behaviour.', sci:'Identity Research'}
+    ]
+  },
+  {
+    day:14, phase:3, phaseName:'MASTER',
+    name:'Cortical Thickness Sprint',
+    focus:'GREY MATTER DENSITY · DEEP WORK APEX',
+    phaseColor:'var(--green)',
+    summary:'Cortical thickness increases with sustained focused attention, new skill acquisition, and meditation over time. Today is the apex of the protocol: your longest deep work session, a new physical skill, and peak visualisation practice.',
+    science:'Neuroimaging research: sustained focused attention practice over 8+ weeks produces measurable increases in anterior cingulate cortex and prefrontal cortex grey matter density.',
+    protocols:[
+      {title:'⏱ 90-min Deep Work Session (Capstone)', desc:'Your longest uninterrupted session yet. No music. Phone in another room. Start with your sensory cue (Day 6). If resistance arises, apply sensory rehearsal (Day 4). This session will feel different from Day 1 — notice it.', sci:'Flow State Research'},
+      {title:'🤹 Learn a New Physical Skill (20 min)', desc:'Juggling, a dance move, left-hand writing, a new musical scale. Motor learning in unfamiliar skills triggers neuroplasticity that extends beyond the motor cortex into prefrontal and temporal regions. Physical skill learning grows grey matter.', sci:'Motor Cortex Plasticity'},
+      {title:'🎯 15-min Visualisation Meditation', desc:'Vividly imagine your 30-day goal (set Day 10) with full sensory and emotional detail. What does it feel like when you achieve it? This activates anticipatory dopamine in the PFC-reward pathway and strengthens future-self connection.', sci:'Visualisation Neuroscience'},
+      {title:'💪 Resistance Training — Heaviest Yet', desc:'35–40 min. Your nervous system is adapted, baseline elevated, sleep better. This session will feel different. Note the post-exercise mood state — this is your new baseline, not a peak.', sci:'Exercise Neurobiology'},
+      {title:'✍️ Letter to Pre-Day-1 Self', desc:'Write a specific letter to yourself about what has changed in 14 days. Be concrete: "My cold shower resistance went from X to Y." This narrative is the brain\'s identity-encoding mechanism — it makes the new behaviours feel native, not effortful.', sci:'Identity Integration'}
+    ]
+  },
+  {
+    day:15, phase:3, phaseName:'MASTER',
+    name:'Integration Day — Your Permanent Protocol',
+    focus:'SYSTEM DESIGN · IDENTITY · LONG-TERM MAINTENANCE',
+    phaseColor:'var(--green)',
+    summary:'Day 15 is not an ending — it is a system installation. The structural brain changes you\'ve initiated take 30–90 days to fully consolidate. Today you design the permanent protocol that sustains these gains. This is where the protocol becomes your identity.',
+    science:'Neuroplasticity research: structural changes (hippocampal volume, cortical thickness, receptor density) initiated in focused 15-day protocols require 30–90 days of consistent maintenance to fully consolidate.',
+    protocols:[
+      {title:'📊 Review Your 15-Day Data', desc:'Look at your sleep log, energy scores, cold shower resistance ratings, and screen time. What changed most? Which single protocol had the largest impact on how you feel? That is your #1 non-negotiable going forward.', sci:'Data Review'},
+      {title:'🏛 Design Your 3 Daily Pillars', desc:'Choose 3 habits you will commit to permanently. Recommended minimum: (1) Morning sunlight within 30 min of waking, (2) Cold exposure or vigorous exercise, (3) No phone for first 30 min of day. Write them as commitments.', sci:'Habit Science'},
+      {title:'📅 Set a 30-Day Review Date', desc:'Mark a calendar date 30 days from today. The neuroplasticity compounding from this 15-day sprint solidifies over 30–90 days of consistent practice. You are not done — you are compounding.', sci:'Structural Plasticity'},
+      {title:'📡 Share With One Person', desc:'Tell one person about your protocol experience. Teaching what you\'ve learned consolidates your own memory of it (the "protégé effect") and creates accountability. You\'re also passing the reset forward to someone who needs it.', sci:'Social Neuroscience'},
+      {title:'🚀 Schedule Your Next Level', desc:'Plan your next 15-day sprint with elevated challenges: longer cold exposure, 90-min daily deep work, strength training 5x/week, and adding one learning practice (language, instrument, skill). The brain rewards escalating challenge.', sci:'Progressive Overload'}
+    ]
+  }
+];
+
+// ============================================================
+//  STORAGE
+// ============================================================
+const S = {
+  get:(k,def=null)=>{try{const v=localStorage.getItem('nf_'+k);return v!==null?JSON.parse(v):def}catch{return def}},
+  set:(k,v)=>{try{localStorage.setItem('nf_'+k,JSON.stringify(v))}catch{}},
+  del:(k)=>localStorage.removeItem('nf_'+k)
+};
+
+// ============================================================
+//  APP STATE
+// ============================================================
+let APP = {
+  user: null,
+  currentDay: 1,
+  viewingDay: 1,
+  currentScreen: 'home',
+  selectedGame: null,
+  timerRunning: false
+};
+
+// ============================================================
+//  INIT
+// ============================================================
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    document.getElementById('loading').style.display='none';
+    const user = S.get('user');
+    if(!user){ showOnboarding(); }
+    else { initApp(user); }
+  }, 1400);
+});
+
+function showOnboarding(){
+  document.getElementById('onboarding').style.display='flex';
+}
+
+let obChallenges = ['procrastination','dopamine'];
+function toggleChallenge(el, key){
+  el.classList.toggle('sel');
+  const check = el.querySelector('.co-check');
+  if(el.classList.contains('sel')){ check.textContent='✓'; if(!obChallenges.includes(key)) obChallenges.push(key); }
+  else { check.textContent=''; obChallenges = obChallenges.filter(c=>c!==key); }
+}
+
+function obNext(step){
+  if(step===1){ document.getElementById('ob1').classList.remove('active'); document.getElementById('ob2').classList.add('active'); }
+  else if(step===2){
+    const name = document.getElementById('ob-name').value.trim();
+    if(!name){ document.getElementById('ob-name').focus(); return; }
+    document.getElementById('ob2').classList.remove('active'); document.getElementById('ob3').classList.add('active');
+  }
+}
+
+function obFinish(){
+  const name = document.getElementById('ob-name').value.trim() || 'Friend';
+  const user = { name, challenges: obChallenges, startDate: new Date().toISOString(), version: '0.1.0' };
+  S.set('user', user);
+  document.getElementById('onboarding').style.display='none';
+  initApp(user);
+  toast(`Welcome, ${name}! Let's begin your reset. 🚀`);
+}
+
+function initApp(user){
+  APP.user = user;
+  const startDate = new Date(user.startDate);
+  const now = new Date();
+  const diffDays = Math.floor((now - startDate) / (1000*60*60*24));
+  APP.currentDay = Math.min(Math.max(1, diffDays+1), 15);
+  APP.viewingDay = APP.currentDay;
+  document.getElementById('app').style.display='flex';
+  renderAll();
+}
+
+function renderAll(){
+  renderHeader();
+  renderDashboard();
+  renderPlan();
+  renderHabits();
+  renderProgress();
+  updateGameBests();
+}
+
+// ============================================================
+//  NAVIGATION
+// ============================================================
+function goTo(screen){
+  APP.currentScreen = screen;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('screen-'+screen).classList.add('active');
+  const navItems = document.querySelectorAll('.nav-item');
+  const screenMap = {home:0, plan:1, games:2, timers:3, habits:4, progress:5};
+  if(screenMap[screen]!==undefined) navItems[screenMap[screen]].classList.add('active');
+  if(screen==='progress') renderProgress();
+  if(screen==='habits') renderHabits();
+  if(screen==='plan'){ renderPlanPills(); renderPlanDay(APP.viewingDay); }
+}
+
+// ============================================================
+//  HEADER
+// ============================================================
+function renderHeader(){
+  document.getElementById('hdr-day').textContent = `Day ${APP.currentDay}`;
+}
+
+// ============================================================
+//  DASHBOARD
+// ============================================================
+function renderDashboard(){
+  if(!APP.user) return;
+  const hour = new Date().getHours();
+  document.getElementById('dash-greeting').textContent = `${hour<12?'Good morning':hour<17?'Good afternoon':'Good evening'}, ${APP.user.name}! 👋`;
+
+  const d = DAYS[APP.currentDay-1];
+  document.getElementById('hero-phase').textContent = `PHASE ${d.phase} — ${d.phaseName}`;
+  document.getElementById('hero-day').textContent = APP.currentDay;
+  document.getElementById('hero-name').textContent = d.name;
+  document.getElementById('hero-focus').textContent = d.focus.split('·')[0].trim();
+  document.getElementById('hero-focus').style.background = d.phase===1?'var(--cyand)':d.phase===2?'var(--vd)':'var(--gd)';
+
+  // Progress for current day
+  const prog = S.get(`day_${APP.currentDay}`, {completed:[]});
+  const pct = d.protocols.length ? Math.round((prog.completed.length/d.protocols.length)*100) : 0;
+  document.getElementById('hero-prog').style.width = pct+'%';
+  document.getElementById('hero-pct').textContent = pct+'%';
+
+  // Streak dots (last 7 days)
+  const streakRow = document.getElementById('streak-row');
+  streakRow.innerHTML='';
+  const dayLabels = ['S','M','T','W','T','F','S'];
+  for(let i=6;i>=0;i--){
+    const dayNum = APP.currentDay - i;
+    const dot = document.createElement('div');
+    dot.className='streak-dot';
+    if(dayNum>0){
+      const dp = S.get(`day_${dayNum}`,{completed:[]});
+      const dd = DAYS[dayNum-1];
+      if(dp.completed.length >= dd.protocols.length) dot.classList.add('done');
+    }
+    if(i===0) dot.classList.add('today');
+    dot.textContent = new Date(Date.now()-i*86400000).toLocaleDateString('en',{weekday:'narrow'}).charAt(0);
+    dot.style.fontSize='10px';
+    streakRow.appendChild(dot);
+  }
+
+  // Stats
+  let totalStreak=0, curStreak=0;
+  for(let i=APP.currentDay;i>=1;i--){
+    const dp = S.get(`day_${i}`,{completed:[]});
+    const dd = DAYS[i-1];
+    if(dp.completed.length >= dd.protocols.length) curStreak++;
+    else break;
+  }
+  document.getElementById('stat-streak').textContent=curStreak;
+  let totalProtos=0, doneProtos=0;
+  for(let i=1;i<=15;i++){
+    const dp=S.get(`day_${i}`,{completed:[]});
+    totalProtos+=DAYS[i-1].protocols.length;
+    doneProtos+=dp.completed.length;
+  }
+  const overallPct=totalProtos?Math.round((doneProtos/totalProtos)*100):0;
+  document.getElementById('stat-tasks').textContent=overallPct+'%';
+  document.getElementById('stat-games').textContent=S.get('games_played',0);
+
+  // Today's Top 3 Protocols
+  const dashProtos = document.getElementById('dash-protocols');
+  dashProtos.innerHTML='';
+  const top3 = d.protocols.slice(0,3);
+  top3.forEach((p,i)=>{
+    const done = prog.completed.includes(i);
+    const el = document.createElement('div');
+    el.className='check-item'+(done?' done':'');
+    el.onclick=()=>toggleProtocol(APP.currentDay,i,el);
+    el.innerHTML=`<div class="check-box">${done?'✓':''}</div><div class="check-text"><div class="check-title">${p.title}</div></div>`;
+    dashProtos.appendChild(el);
+  });
+
+  // Science note
+  document.getElementById('dash-science').textContent = `💡 ${d.science}`;
+}
+
+// ============================================================
+//  PLAN SCREEN
+// ============================================================
+function renderPlan(){
+  renderPlanPills();
+  renderPlanDay(APP.currentDay);
+}
+
+function renderPlanPills(){
+  const container = document.getElementById('plan-pills');
+  container.innerHTML='';
+  for(let i=1;i<=15;i++){
+    const pill = document.createElement('div');
+    pill.className='plan-day-pill';
+    const dp = S.get(`day_${i}`,{completed:[]});
+    const dd = DAYS[i-1];
+    const isComplete = dp.completed.length >= dd.protocols.length;
+    if(i===APP.viewingDay) pill.classList.add('active');
+    if(isComplete) pill.classList.add('completed');
+    if(i>APP.currentDay) pill.style.opacity='0.4';
+    pill.innerHTML=`<div class="dp-num">${i}</div><div class="dp-dot"></div>`;
+    pill.onclick=()=>{ APP.viewingDay=i; renderPlanPills(); renderPlanDay(i); };
+    container.appendChild(pill);
+  }
+  // Scroll to active
+  setTimeout(()=>{
+    const activePill = container.querySelector('.active');
+    if(activePill) activePill.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  },100);
+}
+
+function renderPlanDay(dayNum){
+  const d = DAYS[dayNum-1];
+  const dp = S.get(`day_${dayNum}`,{completed:[]});
+  const pct = Math.round((dp.completed.length/d.protocols.length)*100);
+  const isLocked = dayNum > APP.currentDay;
+  const phaseColors = {1:'var(--cyan)',2:'var(--violet)',3:'var(--green)'};
+  const phaseBg = {1:'var(--cyand)',2:'var(--vd)',3:'var(--gd)'};
+
+  let html = `
+    <div class="phase-banner" style="background:${phaseBg[d.phase]};border:1px solid ${phaseColors[d.phase]}30">
+      <span style="color:${phaseColors[d.phase]}">●</span>
+      <span style="color:${phaseColors[d.phase]}">PHASE ${d.phase} — ${d.phaseName}</span>
+    </div>
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:4px">DAY ${dayNum} OF 15</div>
+        <div style="font-family:'Syne',sans-serif;font-size:19px;font-weight:700;margin-bottom:6px">${d.name}</div>
+        <span class="pill pill-${d.phase===1?'c':d.phase===2?'v':'g'}">${d.focus.split('·')[0].trim()}</span>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:${phaseColors[d.phase]}">${pct}%</div>
+        <div style="font-size:11px;color:var(--muted)">${dp.completed.length}/${d.protocols.length} done</div>
+      </div>
+    </div>
+    <div class="day-summary-box">${d.summary}</div>
+    <div class="science-note" style="margin-bottom:14px">📡 ${d.science}</div>
+    <div class="prog-wrap" style="margin-bottom:16px">
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${phaseColors[d.phase]}"></div></div>
+    </div>
+  `;
+
+  if(isLocked){
+    html += `<div class="empty-state"><div class="es-icon">🔒</div><div class="es-text">This day unlocks on Day ${dayNum} of your reset.<br>Keep going — you're on Day ${APP.currentDay}!</div></div>`;
+  } else {
+    html += '<div class="card" style="padding:0 16px">';
+    d.protocols.forEach((p,i)=>{
+      const done = dp.completed.includes(i);
+      html += `<div class="check-item${done?' done':''}" onclick="toggleProtocol(${dayNum},${i},null,true)">
+        <div class="check-box">${done?'✓':''}</div>
+        <div class="check-text">
+          <div class="check-title">${p.title}</div>
+          <div class="check-desc">${p.desc}</div>
+          <span class="sci-tag">${p.sci}</span>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+    if(pct===100){
+      html+=`<div class="completion-banner show" style="margin-top:14px">
+        <div style="font-size:32px">🎉</div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:var(--green)">Day ${dayNum} Complete!</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Excellent work. ${dayNum<15?`Day ${dayNum+1} awaits.`:'Protocol complete — you built a better brain.'}</div>
+      </div>`;
+    }
+  }
+
+  document.getElementById('plan-day-detail').innerHTML = html;
+}
+
+function toggleProtocol(dayNum, idx, el, rerender=false){
+  const dp = S.get(`day_${dayNum}`,{completed:[]});
+  const pos = dp.completed.indexOf(idx);
+  if(pos>-1) dp.completed.splice(pos,1);
+  else { dp.completed.push(idx); toast(DAYS[dayNum-1].protocols[idx].title+' ✓'); }
+  dp.lastUpdated = new Date().toISOString();
+  S.set(`day_${dayNum}`, dp);
+
+  if(rerender){ renderPlanDay(dayNum); renderPlanPills(); }
+  else if(el){
+    const done = dp.completed.includes(idx);
+    el.classList.toggle('done',done);
+    el.querySelector('.check-box').textContent=done?'✓':'';
+  }
+  renderDashboard();
+}
+
+// ============================================================
+//  HABITS
+// ============================================================
+const HABITS_DEF = [
+  {id:'sunlight',icon:'☀️',name:'Morning Sunlight',desc:'10 min outdoors within 30 min of waking',streak_color:'var(--amber)'},
+  {id:'cold',icon:'🧊',name:'Cold Exposure',desc:'Cold shower or cold plunge for 30–90 sec',streak_color:'var(--sky)'},
+  {id:'exercise',icon:'🏃',name:'Exercise',desc:'20+ min cardio or resistance training',streak_color:'var(--green)'},
+  {id:'nsdr',icon:'🧘',name:'NSDR / Rest',desc:'10–20 min Yoga Nidra or meditation',streak_color:'var(--violet)'},
+  {id:'noscroll',icon:'📵',name:'No Doomscrolling',desc:'Social media under 15 min today',streak_color:'var(--rose)'},
+  {id:'sleep',icon:'😴',name:'Good Sleep',desc:'7–9 hours, phone outside bedroom',streak_color:'var(--cyan)'},
+  {id:'nutrition',icon:'🥗',name:'Clean Nutrition',desc:'Whole foods, tyrosine-rich meal, omega-3s',streak_color:'var(--amber)'},
+];
+
+function getHabitsToday(){
+  return S.get(`habits_${dateKey()}`, {});
+}
+function dateKey(d=new Date()){
+  return d.toISOString().split('T')[0];
+}
+function getHabitStreak(habitId){
+  let streak=0, d=new Date();
+  for(let i=0;i<60;i++){
+    const key=dateKey(new Date(d-i*86400000));
+    const h=S.get(`habits_${key}`,{});
+    if(h[habitId]) streak++;
+    else if(i>0) break;
+  }
+  return streak;
+}
+
+function renderHabits(){
+  const today = getHabitsToday();
+  const card = document.getElementById('habits-card');
+  let html='';
+  HABITS_DEF.forEach(h=>{
+    const done=!!today[h.id];
+    const streak=getHabitStreak(h.id);
+    let weekDots='';
+    for(let i=6;i>=0;i--){
+      const key=dateKey(new Date(Date.now()-i*86400000));
+      const hd=S.get(`habits_${key}`,{});
+      weekDots+=`<div class="hw-dot${hd[h.id]?' done':''}${i===0?' today':''}">${i===0?'·':''}</div>`;
+    }
+    html+=`<div class="habit-check">
+      <div class="habit-left">
+        <div class="habit-icon">${h.icon}</div>
+        <div class="habit-info">
+          <div class="hn">${h.name}</div>
+          <div class="hd">${h.desc}</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        ${streak>1?`<span style="font-family:'DM Mono',monospace;font-size:9px;color:${h.streak_color}">🔥${streak}</span>`:''}
+        <div class="habit-toggle${done?' on':''}" onclick="toggleHabit('${h.id}',this)"></div>
+      </div>
+    </div>`;
+  });
+  card.innerHTML=html;
+
+  // Mood
+  const mood=S.get(`mood_${dateKey()}`,0);
+  document.querySelectorAll('.mood-btn').forEach((b,i)=>{
+    b.classList.toggle('sel', i+1===mood);
+  });
+  const moodTexts=['','Rough day. Your effort here still counts. 💪','Low energy noted. Cold shower + sunlight will help.','Stable baseline. Keep the protocol going.','Good energy! Your circuits are working.','Excellent! This is what restored dopamine feels like.'];
+  document.getElementById('mood-note').textContent=mood?moodTexts[mood]:'';
+
+  // Week card
+  const weekCard=document.getElementById('week-card');
+  let wHtml='';
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  wHtml+='<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center">';
+  days.forEach(d=>{ wHtml+=`<div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--dim)">${d}</div>`; });
+  for(let i=6;i>=0;i--){
+    const key=dateKey(new Date(Date.now()-i*86400000));
+    const hd=S.get(`habits_${key}`,{});
+    const cnt=HABITS_DEF.filter(h=>hd[h.id]).length;
+    const pct=cnt/HABITS_DEF.length;
+    const bg=pct>0.7?'var(--cyand)':pct>0.4?'rgba(0,229,255,0.06)':'var(--glass)';
+    const bc=pct>0.7?'rgba(0,229,255,.35)':pct>0.4?'rgba(0,229,255,.15)':'var(--gb)';
+    wHtml+=`<div style="aspect-ratio:1;border-radius:6px;background:${bg};border:1px solid ${bc};display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:10px;color:${pct>0.4?'var(--cyan)':'var(--dim)'}">${cnt||''}</div>`;
+  }
+  wHtml+='</div>';
+  weekCard.innerHTML=wHtml;
+}
+
+function toggleHabit(id, el){
+  const key=dateKey();
+  const today=S.get(`habits_${key}`,{});
+  today[id]=!today[id];
+  S.set(`habits_${key}`,today);
+  el.classList.toggle('on',today[id]);
+  if(today[id]) toast(`${HABITS_DEF.find(h=>h.id===id).icon} Logged!`);
+  renderHabits();
+}
+
+function setMood(n){
+  S.set(`mood_${dateKey()}`,n);
+  renderHabits();
+}
+
+// ============================================================
+//  PROGRESS
+// ============================================================
+function renderProgress(){
+  // Overall
+  let totalProtos=0,doneProtos=0;
+  for(let i=1;i<=15;i++){
+    const dp=S.get(`day_${i}`,{completed:[]});
+    totalProtos+=DAYS[i-1].protocols.length;
+    doneProtos+=dp.completed.length;
+  }
+  const overallPct=totalProtos?Math.round((doneProtos/totalProtos)*100):0;
+  document.getElementById('prog-overall').style.width=overallPct+'%';
+  document.getElementById('prog-pct-label').textContent=overallPct+'%';
+  document.getElementById('prog-days-label').textContent=`Day ${APP.currentDay} of 15`;
+
+  let streak=0;
+  for(let i=APP.currentDay;i>=1;i--){
+    const dp=S.get(`day_${i}`,{completed:[]});
+    if(dp.completed.length>=DAYS[i-1].protocols.length) streak++;
+    else break;
+  }
+  document.getElementById('prog-streak').textContent=streak;
+  document.getElementById('prog-protocols').textContent=doneProtos;
+
+  let habitTotal=0;
+  for(let i=0;i<15;i++){
+    const key=dateKey(new Date(new Date(APP.user.startDate).getTime()+i*86400000));
+    const hd=S.get(`habits_${key}`,{});
+    habitTotal+=HABITS_DEF.filter(h=>hd[h.id]).length;
+  }
+  document.getElementById('prog-habits').textContent=habitTotal;
+  document.getElementById('prog-sessions').textContent=S.get('pomo_sessions',0);
+
+  // Chart bars
+  const bars=document.getElementById('chart-bars');
+  bars.innerHTML='';
+  for(let i=1;i<=15;i++){
+    const dp=S.get(`day_${i}`,{completed:[]});
+    const pct=DAYS[i-1].protocols.length?Math.round((dp.completed.length/DAYS[i-1].protocols.length)*100):0;
+    const wrap=document.createElement('div');
+    wrap.className='chart-bar-wrap';
+    wrap.innerHTML=`<div class="chart-bar${i===APP.currentDay?' today':''}" style="height:${Math.max(pct,2)}%"></div><div class="chart-label">${i}</div>`;
+    bars.appendChild(wrap);
+  }
+
+  // Habits chart
+  const habitsChart=document.getElementById('habits-chart');
+  let hcHtml='';
+  HABITS_DEF.forEach(h=>{
+    let cnt=0;
+    for(let i=0;i<APP.currentDay;i++){
+      const key=dateKey(new Date(new Date(APP.user.startDate).getTime()+i*86400000));
+      const hd=S.get(`habits_${key}`,{});
+      if(hd[h.id]) cnt++;
+    }
+    const pct=APP.currentDay?Math.round((cnt/APP.currentDay)*100):0;
+    hcHtml+=`<div class="prog-wrap" style="margin:8px 0">
+      <div class="prog-label"><span>${h.icon} ${h.name}</span><span style="color:${h.streak_color}">${pct}%</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%;background:${h.streak_color}"></div></div>
+    </div>`;
+  });
+  habitsChart.innerHTML=hcHtml;
+
+  // Achievements
+  const ach=document.getElementById('achievements');
+  const daysCompleted=Array.from({length:15},(_,i)=>{
+    const dp=S.get(`day_${i+1}`,{completed:[]});
+    return dp.completed.length>=DAYS[i].protocols.length;
+  });
+  const habitsToday=getHabitsToday();
+  const achievements=[
+    {icon:'🌅',title:'First Light',desc:'Complete Day 1',unlocked:daysCompleted[0]},
+    {icon:'🧊',title:'Ice Breaker',desc:'Complete the cold shower on Day 2',unlocked:daysCompleted[1]},
+    {icon:'🔥',title:'On a Roll',desc:'Complete 3 consecutive days',unlocked:daysCompleted.slice(0,3).every(Boolean)},
+    {icon:'🧠',title:'Phase 1 Master',desc:'Complete all 5 Reset days',unlocked:daysCompleted.slice(0,5).every(Boolean)},
+    {icon:'⚡',title:'Rewired',desc:'Complete Phase 2 (Days 6–10)',unlocked:daysCompleted.slice(5,10).every(Boolean)},
+    {icon:'🏆',title:'NeuroReset Complete',desc:'Complete all 15 days',unlocked:daysCompleted.every(Boolean)},
+    {icon:'🎮',title:'Brain Gamer',desc:'Play 5 brain training sessions',unlocked:S.get('games_played',0)>=5},
+    {icon:'⏱',title:'Deep Focus',desc:'Complete 5 Pomodoro sessions',unlocked:S.get('pomo_sessions',0)>=5},
+  ];
+  ach.innerHTML=achievements.map(a=>`
+    <div class="achievement" style="${!a.unlocked?'opacity:0.4':''}">
+      <div class="ach-icon">${a.icon}</div>
+      <div class="ach-info">
+        <div class="ai-title">${a.title}</div>
+        <div class="ai-desc ${a.unlocked?'':'ai-locked'}">${a.unlocked?a.desc:'🔒 '+a.desc}</div>
+      </div>
+      ${a.unlocked?'<span class="pill pill-g">Unlocked</span>':''}
+    </div>
+  `).join('');
+}
+
+// ============================================================
+//  GAMES
+// ============================================================
+function selectGame(id){
+  APP.selectedGame=id;
+  document.querySelectorAll('.game-card').forEach(c=>c.classList.remove('active-game'));
+  document.querySelectorAll('.game-arena').forEach(a=>a.classList.remove('active'));
+  document.getElementById('arena-'+id).classList.add('active');
+  document.querySelectorAll('.game-card').forEach((c,i)=>{
+    const ids=['nback','reaction','sequence','stroop'];
+    if(ids[i]===id) c.classList.add('active-game');
+  });
+  // Scroll to arena
+  setTimeout(()=>document.getElementById('arena-'+id).scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  // Track
+  const gp=S.get('games_played',0)+1;
+  S.set('games_played',gp);
+  document.getElementById('stat-games').textContent=gp;
+}
+
+function updateGameBests(){
+  const gs=S.get('game_scores',{});
+  document.getElementById('gbest-nback').textContent='Best: '+(gs.nback||0);
+  document.getElementById('gbest-reaction').textContent='Best: '+(gs.reaction?gs.reaction+'ms':'--ms');
+  document.getElementById('gbest-sequence').textContent='Best: L'+(gs.sequence||0);
+  document.getElementById('gbest-stroop').textContent='Best: '+(gs.stroop||0)+'%';
+}
+function saveGameScore(game, score){
+  const gs=S.get('game_scores',{});
+  if(game==='reaction'){ if(!gs.reaction||score<gs.reaction) gs.reaction=score; }
+  else { if(!gs[game]||score>gs[game]) gs[game]=score; }
+  S.set('game_scores',gs);
+  updateGameBests();
+}
+
+const G = {
+  // === N-BACK ===
+  nback: (()=>{
+    let seq=[],idx=0,score=0,streak=0,prev=null,curr=null,running=false,timer=null;
+    function start(){
+      seq=[];idx=0;score=0;streak=0;prev=null;curr=null;running=true;
+      if(timer)clearInterval(timer);
+      upd();
+      next();
+      timer=setInterval(()=>{prev=curr;next();},2200);
+    }
+    function next(){
+      document.querySelectorAll('.nb-cell').forEach(c=>c.classList.remove('lit'));
+      curr=Math.floor(Math.random()*9);
+      seq.push(curr);idx++;
+      const cell=document.getElementById('nb'+curr);
+      if(cell){cell.classList.add('lit');setTimeout(()=>cell.classList.remove('lit'),900);}
+    }
+    function answer(match){
+      if(!running||seq.length<2)return;
+      const correct=(seq[seq.length-1]===seq[seq.length-2]);
+      if(match===correct){score++;streak++;if(score%5===0)toast(`🎯 ${score} correct!`);}
+      else streak=0;
+      upd();saveGameScore('nback',score);
+    }
+    function upd(){document.getElementById('nback-score').textContent=`Score: ${score} · Streak: ${streak} · Round: ${idx}`;}
+    return {start,answer};
+  })(),
+
+  // === REACTION ===
+  reaction: (()=>{
+    let state='idle',start=0,t=null,times=[];
+    function doStart(){
+      reset();state='waiting';
+      const box=document.getElementById('rt-box');
+      box.className='rt-box wait';box.textContent='Wait... ⚠️';
+      document.getElementById('rt-score').textContent='Stay ready — wait for green!';
+      t=setTimeout(()=>{
+        start=performance.now();state='go';
+        box.className='rt-box go';box.textContent='CLICK NOW! ⚡';
+      },1500+Math.random()*3500);
+    }
+    function click(){
+      const box=document.getElementById('rt-box');
+      if(state==='go'){
+        const ms=Math.round(performance.now()-start);
+        times.push(ms);state='idle';
+        const avg=Math.round(times.reduce((a,b)=>a+b,0)/times.length);
+        const r=ms<200?'🟢 Excellent':ms<280?'🟡 Good':ms<380?'🟠 Average':'🔴 Brain Fog Alert';
+        box.className='rt-box';box.textContent=`${ms}ms — Press Start again`;
+        document.getElementById('rt-score').textContent=`Last: ${ms}ms · Avg: ${avg}ms · ${r}`;
+        saveGameScore('reaction',ms);
+        if(ms<200) toast('⚡ Lightning fast!');
+      } else if(state==='waiting'){
+        clearTimeout(t);state='idle';
+        box.className='rt-box';box.textContent='Too early! 😅 Try again';
+        document.getElementById('rt-score').textContent='Jumped! Wait for GREEN.';
+      }
+    }
+    function reset(){
+      clearTimeout(t);state='idle';times=[];
+      const box=document.getElementById('rt-box');
+      box.className='rt-box';box.textContent='Press Start';
+      document.getElementById('rt-score').textContent='Click Start then wait...';
+    }
+    return {start:doStart,click,reset};
+  })(),
+
+  // === SEQUENCE ===
+  sequence: (()=>{
+    let target=[],inp=[],playing=false,level=1;
+    function doStart(){
+      target=[];inp=[];level=1;
+      for(let i=0;i<3;i++)target.push(Math.floor(Math.random()*4));
+      play();
+    }
+    function play(){
+      playing=true;inp=[];
+      document.getElementById('seq-score').textContent=`Level ${level} — Watch the sequence!`;
+      let i=0;
+      const iv=setInterval(()=>{
+        if(i>=target.length){clearInterval(iv);playing=false;document.getElementById('seq-score').textContent=`Level ${level} — Now repeat it!`;return;}
+        const btns=document.querySelectorAll('.seq-btn');
+        btns[target[i]].style.transform='scale(1.2)';btns[target[i]].style.opacity='1';
+        setTimeout(()=>{btns[target[i]].style.transform='scale(1)';btns[target[i]].style.opacity='.7';},400);
+        i++;
+      },700);
+    }
+    function input(n){
+      if(playing)return;
+      inp.push(n);
+      const pos=inp.length-1;
+      if(inp[pos]!==target[pos]){
+        document.getElementById('seq-score').textContent=`❌ Wrong at step ${pos+1}! Level ${level} reached.`;
+        saveGameScore('sequence',level);
+        setTimeout(doStart,1500);return;
+      }
+      if(inp.length===target.length){
+        level++;target.push(Math.floor(Math.random()*4));
+        document.getElementById('seq-score').textContent=`✅ Level ${level}!`;
+        if(level%3===0)toast(`🧩 Level ${level} reached!`);
+        setTimeout(play,800);
+      }
+    }
+    return {start:doStart,input};
+  })(),
+
+  // === STROOP ===
+  stroop: (()=>{
+    const words=['RED','BLUE','GREEN','YELLOW'];
+    const colours={'RED':'#ff4d4d','BLUE':'#38bdf8','GREEN':'#00ffa3','YELLOW':'#ffb347'};
+    let curr,ink,score=0,total=0,running=false,t=null;
+    function start(){score=0;total=0;running=true;next();}
+    function next(){
+      curr=words[Math.floor(Math.random()*4)];
+      ink=words[Math.floor(Math.random()*4)];
+      const el=document.getElementById('stroop-word');
+      el.textContent=curr;el.style.color=colours[ink];
+      document.getElementById('stroop-score').textContent=`Score: ${score}/${total} — Select the INK colour`;
+    }
+    function answer(color){
+      if(!running)return;
+      total++;
+      if(color===ink){score++;document.getElementById('stroop-score').textContent=`✅ Correct! ${score}/${total}`;}
+      else document.getElementById('stroop-score').textContent=`❌ Ink was ${ink}. ${score}/${total}`;
+      const pct=total?Math.round(score/total*100):0;
+      saveGameScore('stroop',pct);
+      setTimeout(next,400);
+    }
+    function doStop(){
+      running=false;
+      const pct=total?Math.round(score/total*100):0;
+      document.getElementById('stroop-word').textContent='DONE';
+      document.getElementById('stroop-word').style.color='var(--muted)';
+      document.getElementById('stroop-score').textContent=`Final: ${score}/${total} = ${pct}%`;
+      saveGameScore('stroop',pct);
+    }
+    return {start,answer,stop:doStop};
+  })()
+};
+
+// ============================================================
+//  TIMERS
+// ============================================================
+const T = {
+  pomo: (()=>{
+    let secs=25*60,running=false,interval=null,phase='focus',sessions=0,breaks=0;
+    function toggle(){
+      if(running){clearInterval(interval);running=false;document.getElementById('pomo-btn').textContent='▶ Resume';}
+      else{
+        running=true;document.getElementById('pomo-btn').textContent='⏸ Pause';
+        interval=setInterval(()=>{
+          secs--;
+          if(secs<=0){
+            clearInterval(interval);running=false;
+            if(phase==='focus'){sessions++;S.set('pomo_sessions',S.get('pomo_sessions',0)+1);document.getElementById('stat-games');
+              toast('🍅 Focus session complete! Take a break.');
+              phase='break';secs=5*60;document.getElementById('pomo-phase').textContent='Break Time — Step away, breathe, hydrate.';
+            } else {
+              phase='focus';secs=25*60;document.getElementById('pomo-phase').textContent='Focus Block — Work without distractions';
+              toast('🎯 Break over! Back to focus.');
+            }
+            document.getElementById('pomo-btn').textContent='▶ Start';
+            document.getElementById('pomo-sessions').textContent=`Sessions today: ${sessions}`;
+          }
+          render();
+        },1000);
+      }
+    }
+    function reset(){clearInterval(interval);running=false;secs=25*60;phase='focus';render();document.getElementById('pomo-btn').textContent='▶ Start';document.getElementById('pomo-phase').textContent='Focus Block — Work without distractions';}
+    function skip(){clearInterval(interval);running=false;if(phase==='focus'){phase='break';secs=5*60;document.getElementById('pomo-phase').textContent='Break Time — Step away, breathe, hydrate.';}else{phase='focus';secs=25*60;}render();document.getElementById('pomo-btn').textContent='▶ Start';}
+    function render(){
+      const m=Math.floor(secs/60),s=secs%60;
+      const el=document.getElementById('pomo-display');
+      el.textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      el.className='timer-display'+(secs<60?' warning':'')+(secs<=0?' done':'');
+    }
+    return {toggle,reset,skip};
+  })(),
+
+  cold: (()=>{
+    let secs=90,running=false,interval=null,total=90;
+    const messages=['❄️ Starting... breathe steadily','🌊 Stay calm. Breathe. PFC is activating.','💪 Halfway. Your willpower circuit is growing.','⚡ Almost there. This is where growth happens.','🔥 DONE! +250% dopamine incoming.'];
+    function toggle(){
+      if(running){clearInterval(interval);running=false;document.getElementById('cold-btn').textContent='▶ Resume';}
+      else{
+        running=true;document.getElementById('cold-btn').textContent='⏸ Pause';
+        interval=setInterval(()=>{
+          secs--;
+          if(secs<=0){
+            clearInterval(interval);running=false;
+            document.getElementById('cold-emoji').textContent='🔥';
+            document.getElementById('cold-phase').textContent='Completed! Dopamine rising 📈';
+            document.getElementById('cold-btn').textContent='▶ Start New';
+            const key=dateKey();const h=S.get(`habits_${key}`,{});h.cold=true;S.set(`habits_${key}`,h);
+            const w=S.get('cold_week',0)+1;S.set('cold_week',w);
+            document.getElementById('cold-streak').textContent=`Cold showers this week: ${w}`;
+            toast('🧊 Cold protocol complete! Dopamine restored.');
+            return;
+          }
+          render();
+          const pct=1-secs/total;
+          const mi=Math.min(4,Math.floor(pct*5));
+          document.getElementById('cold-emoji').textContent=messages[mi].split(' ')[0];
+          document.getElementById('cold-phase').textContent=messages[mi].split(' ').slice(1).join(' ');
+        },1000);
+      }
+    }
+    function reset(){clearInterval(interval);running=false;secs=90;render();document.getElementById('cold-btn').textContent='▶ Start Cold';document.getElementById('cold-emoji').textContent='❄️';document.getElementById('cold-phase').textContent='Raises baseline dopamine +250% for 2–4 hours (Šrámek et al.)';}
+    function render(){
+      const m=Math.floor(secs/60),s=secs%60;
+      document.getElementById('cold-display').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+    render();
+    return {toggle,reset};
+  })(),
+
+  nsdr: (()=>{
+    let totalSecs=10*60,secs=10*60,running=false,interval=null;
+    const phases=['Find a comfortable lying position. Close your eyes.','Bring awareness to your breath. Don\'t control it, just observe.','Scan slowly from feet upward. Notice each body part.','You are in a state of restful awareness. Let thoughts drift.','Dopamine and norepinephrine are replenishing now.','Remain still. Your brain is consolidating and restoring.','Gently return your awareness. The session is ending.'];
+    function toggle(){
+      if(running){clearInterval(interval);running=false;document.getElementById('nsdr-btn').textContent='▶ Resume';}
+      else{
+        running=true;document.getElementById('nsdr-btn').textContent='⏸ Pause';
+        interval=setInterval(()=>{
+          secs--;
+          if(secs<=0){
+            clearInterval(interval);running=false;
+            document.getElementById('nsdr-phase').textContent='✨ NSDR Complete — Welcome back.';
+            document.getElementById('nsdr-btn').textContent='▶ New Session';
+            const key=dateKey();const h=S.get(`habits_${key}`,{});h.nsdr=true;S.set(`habits_${key}`,h);
+            toast('🧘 NSDR complete. Neurotransmitters restored.');
+            return;
+          }
+          const m=Math.floor(secs/60),s=secs%60;
+          document.getElementById('nsdr-display').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+          const pct=1-secs/totalSecs;
+          const pi=Math.min(phases.length-1,Math.floor(pct*phases.length));
+          document.getElementById('nsdr-phase').textContent=phases[pi];
+        },1000);
+      }
+    }
+    function setMins(m){
+      clearInterval(interval);running=false;
+      secs=m*60;totalSecs=m*60;
+      document.getElementById('nsdr-display').textContent=`${String(m).padStart(2,'0')}:00`;
+      document.getElementById('nsdr-btn').textContent='▶ Begin NSDR';
+      document.getElementById('nsdr-phase').textContent='Non-Sleep Deep Rest — restores dopamine reserves';
+    }
+    return {toggle,setMins};
+  })()
+};
+
+// Shortcut to timers screen
+function launchTimer(type){
+  goTo('timers');
+  setTimeout(()=>{
+    const cards={'cold':'cold-card','nsdr':'nsdr-card','pomo':'pomodoro-card'};
+    const el=document.getElementById(cards[type]||'pomodoro-card');
+    if(el) el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  },200);
+}
+
+// ============================================================
+//  SETTINGS
+// ============================================================
+function openSettings(){
+  if(!APP.user)return;
+  document.getElementById('set-name').textContent=APP.user.name;
+  document.getElementById('set-startdate').textContent=new Date(APP.user.startDate).toLocaleDateString('en',{day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('settings-modal').classList.add('open');
+}
+function closeSettings(e){
+  if(e.target===document.getElementById('settings-modal')) document.getElementById('settings-modal').classList.remove('open');
+}
+function editName(){
+  const n=prompt('Your name:',APP.user.name);
+  if(n&&n.trim()){APP.user.name=n.trim();S.set('user',APP.user);document.getElementById('set-name').textContent=APP.user.name;renderDashboard();}
+}
+function exportData(){
+  const data={user:APP.user,version:'0.1.0-beta',exported:new Date().toISOString()};
+  for(let i=1;i<=15;i++) data['day_'+i]=S.get('day_'+i,{completed:[]});
+  HABITS_DEF.forEach(h=>{ for(let i=0;i<15;i++){const k=dateKey(new Date(new Date(APP.user.startDate).getTime()+i*86400000));data['habits_'+k]=S.get('habits_'+k,{});}});
+  data.game_scores=S.get('game_scores',{});data.pomo_sessions=S.get('pomo_sessions',0);
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='neuroflow-backup.json';a.click();
+  toast('📦 Data exported!');
+}
+function resetApp(){
+  if(!confirm('Reset all data and start over? This cannot be undone.'))return;
+  Object.keys(localStorage).filter(k=>k.startsWith('nf_')).forEach(k=>localStorage.removeItem(k));
+  document.getElementById('settings-modal').classList.remove('open');
+  document.getElementById('app').style.display='none';
+  document.getElementById('loading').style.display='flex';
+  setTimeout(()=>{document.getElementById('loading').style.display='none';showOnboarding();},800);
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
+}
+</script>
+</body>
+</html>
