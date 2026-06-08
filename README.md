@@ -105,68 +105,6 @@ Fonts:       System fonts (works offline) + Google Fonts (enhancement)
 Icons:       Inline SVG (no external files needed)
 ```
 
----
-
-## 🚀 Roadmap to Production
-
-### v0.2 (Week 2–3)
-- [ ] Push notifications for daily habit reminders (Web Push API)
-- [ ] NSDR audio tracks (Howler.js, hosted audio files)
-- [ ] Import/restore from JSON backup
-- [ ] Share completion badges (Web Share API)
-- [ ] Apple App Store via PWABuilder
-
-### v0.3 (Month 1)
-- [ ] Supabase backend (cloud sync across devices)
-- [ ] User accounts (email or Google)
-- [ ] Community wall ("Day 10 complete!")
-- [ ] Coach/accountability partner feature
-
-### v1.0 (Month 2–3)
-- [ ] AI scheduler (Claude/OpenAI API) — personalised daily order
-- [ ] Apple Health / Google Fit integration
-- [ ] Stripe payment for Pro tier ($9/month)
-- [ ] Enterprise team dashboard
-
----
-
-## 💼 Business Model
-
-```
-Free:        Full 15-day plan · 4 brain games · habit tracker · timers
-Pro ($9/mo): AI scheduling · NSDR audio library · cloud sync · analytics
-Teams ($12/user/mo): HR dashboard · Slack bot · burnout prevention reports
-```
-
-**To add Stripe payments:**
-```html
-<script src="https://js.stripe.com/v3/"></script>
-```
-Add a paywall check before rendering Day 6+ content in the `renderPlanDay()` function.
-
-**To add cloud sync (Supabase — free tier):**
-```js
-// Replace the DB.set/DB.get calls with:
-await supabase.from('progress').upsert({ user_id, key, value });
-```
-The DB storage object is already abstracted — just swap the implementation.
-
----
-
-## 📡 Science Sources
-
-1. **Dr. Sanil Rege** (PsychScene) — *Procrastination Is a Dopamine Timing Problem* · youtu.be/lacFcgcHx6I
-2. **Dr. Andrew Huberman** (Stanford) — *Leverage Dopamine to Overcome Procrastination* · Huberman Lab
-3. **Šrámek et al.** — Cold water immersion +250% dopamine (European J. Applied Physiology, 2000)
-4. **Erickson et al.** — Exercise increases hippocampal volume (PNAS, 2011)
-5. **Stickgold & Walker** — Sleep/NSDR and neuroplasticity (Neuron, 2013)
-6. **Shurtleff et al.** — Tyrosine improves working memory (Pharmacology Biochemistry, 1994)
-7. **Schultz** — Dopamine reward prediction error (Current Opinion in Neurobiology, 2020)
-8. **Jaeggi et al.** — N-Back training and fluid intelligence (PNAS, 2008)
-9. **Dr. Anna Lembke** — Dopamine Nation (Stanford, 2021)
-10. **Aron et al.** — PFC inhibitory control (Nature Reviews Neuroscience, 2007)
-
----
 
 ## ⚠️ Disclaimer
 
